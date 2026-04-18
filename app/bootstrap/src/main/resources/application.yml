@@ -1,0 +1,82 @@
+zeroagent:
+  llm:
+    doubao:
+      base-url: 'https://ark.cn-beijing.volces.com/api'
+      api-key: ${llm.api-key}
+      chat:
+        completion-path: '/v3/chat/completions'
+#        model: 'doubao-seed-2-0-mini-260215'
+        model: 'doubao-seed-2-0-pro-260215'
+
+  baige:
+    url: 'https://ygocdb.com'
+  feishu:
+    feishu-url: 'https://open.feishu.cn/open-apis'
+    larksuite-url: 'https://open.larksuite.com'
+    app-id: ${feishu.app-id}
+    app-secret: ${feishu.app-secret}
+spring:
+  profiles:
+    active: dev
+  main:
+    web-application-type: servlet
+  application:
+    name: zeroagent
+  server:
+    port: 8080
+  datasource:
+    url: ${datasource.url}
+    username: ${datasource.username}
+#    password:
+    driver-class-name: org.postgresql.Driver
+    # 指定连接池（Spring Boot 3 默认用 HikariCP，这里配一下基本参数）
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 30000
+      pool-name: ZeroAgentHikariCP
+  task:
+    scheduling:
+      pool:
+        size: 4
+
+  jmx:
+    enabled: false
+  jackson:
+    default-property-inclusion: non_absent
+    time-zone: "Asia/Shanghai"
+    deserialization:
+      fail-on-unknown-properties: false
+      read-date-timestamps-as-nanoseconds: false
+      accept-float-as-int: false
+    serialization:
+      write-date-timestamps-as-nanoseconds: false
+      fail-on-empty-beans: false
+  jooq:
+    sql-dialect: postgres
+  neo4j:
+    uri: ${neo4j.uri}  # 可视化页面在 7474 端口
+    authentication:
+      username: ${neo4j.authentication.username}
+      password: ${neo4j.authentication.password}
+volcengine:
+  cloud:
+    region: ${volcengine.cloud.region}
+    access-key: ${volcengine.cloud.access-key}
+    secret-key: ${volcengine.cloud.secret-key}
+    enable-crc: true
+    connect-timeout-mills: 300000
+    read-timeout-mills: 300000
+    write-timeout-mills: 300000
+    max-retry-count: 3
+    tos:
+      endpoint: tos-cn-shanghai.volces.com # 内网写 (部署到火山云服务器后切换为 -> ivolces)
+      read-endpoint: tos-cn-shanghai.volces.com #公网读
+      bucket: ${volcengine.cloud.tos.bucket}
+
+
+
+application:
+  card-task:
+    scheduler:
+      enabled: true

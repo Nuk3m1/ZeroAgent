@@ -1,0 +1,25 @@
+llm:
+  #大模型密钥
+  api-key:
+feishu:
+  # 飞书应用
+  app-id:
+  app-secret:
+datasource:
+  # pg数据库连接
+  url:
+  username:
+neo4j:
+  # neo4j图数据库连接
+  uri:
+  authentication:
+    username:
+    password:
+volcengine:
+  # TOS对象存储
+  cloud:
+    region:
+    access-key:
+    secret-key:
+    tos:
+      bucket:

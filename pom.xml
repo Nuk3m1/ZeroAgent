@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.ZeroAgent</groupId>
+    <artifactId>ZeroAgent-root</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>app/api</module>
+        <module>app/biz</module>
+        <module>app/bootstrap</module>
+        <module>app/domain</module>
+        <module>app/infra</module>
+        <module>app/common</module>
+    </modules>
+
+    <properties>
+        <java.version>21</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <spring-boot.version>3.3.0</spring-boot.version>
+        <lombok.version>1.18.32</lombok.version>
+        <fastjson2.version>2.0.43</fastjson2.version>
+        <jooq.version>3.19.8</jooq.version>
+        <feign.version>13.3</feign.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.ZeroAgent</groupId>
+                <artifactId>ZeroAgent-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ZeroAgent</groupId>
+                <artifactId>ZeroAgent-infra</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ZeroAgent</groupId>
+                <artifactId>ZeroAgent-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ZeroAgent</groupId>
+                <artifactId>ZeroAgent-biz</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ZeroAgent</groupId>
+                <artifactId>ZeroAgent-bootstrap</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ZeroAgent</groupId>
+                <artifactId>ZeroAgent-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+        </pluginManagement>
+    </build>
+</project>

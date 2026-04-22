@@ -128,26 +128,10 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
     }
 
     /**
-     * Setter for <code>public.graph_sync_error_log.resolved</code>.
-     */
-    public GraphSyncErrorLogRecord setResolved(@Nullable Boolean value) {
-        set(6, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>public.graph_sync_error_log.resolved</code>.
-     */
-    @Nullable
-    public Boolean getResolved() {
-        return (Boolean) get(6);
-    }
-
-    /**
      * Setter for <code>public.graph_sync_error_log.created_at</code>.
      */
     public GraphSyncErrorLogRecord setCreatedAt(@Nullable OffsetDateTime value) {
-        set(7, value);
+        set(6, value);
         return this;
     }
 
@@ -156,14 +140,14 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
      */
     @Nullable
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(7);
+        return (OffsetDateTime) get(6);
     }
 
     /**
      * Setter for <code>public.graph_sync_error_log.updated_at</code>.
      */
     public GraphSyncErrorLogRecord setUpdatedAt(@Nullable OffsetDateTime value) {
-        set(8, value);
+        set(7, value);
         return this;
     }
 
@@ -172,7 +156,55 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
      */
     @Nullable
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(8);
+        return (OffsetDateTime) get(7);
+    }
+
+    /**
+     * Setter for <code>public.graph_sync_error_log.status</code>.
+     */
+    public GraphSyncErrorLogRecord setStatus(@Nullable Short value) {
+        set(8, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.status</code>.
+     */
+    @Nullable
+    public Short getStatus() {
+        return (Short) get(8);
+    }
+
+    /**
+     * Setter for <code>public.graph_sync_error_log.target_card_id</code>.
+     */
+    public GraphSyncErrorLogRecord setTargetCardId(@Nullable Long value) {
+        set(9, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.target_card_id</code>.
+     */
+    @Nullable
+    public Long getTargetCardId() {
+        return (Long) get(9);
+    }
+
+    /**
+     * Setter for <code>public.graph_sync_error_log.target_card_name</code>.
+     */
+    public GraphSyncErrorLogRecord setTargetCardName(@Nullable String value) {
+        set(10, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.target_card_name</code>.
+     */
+    @Nullable
+    public String getTargetCardName() {
+        return (String) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -198,7 +230,7 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
     /**
      * Create a detached, initialised GraphSyncErrorLogRecord
      */
-    public GraphSyncErrorLogRecord(@Nullable Long id, Long sourceCardId, String sourceCardName, @Nullable JSONB llmRawResponse, @Nullable String errorType, @Nullable String errorMessage, @Nullable Boolean resolved, @Nullable OffsetDateTime createdAt, @Nullable OffsetDateTime updatedAt) {
+    public GraphSyncErrorLogRecord(@Nullable Long id, Long sourceCardId, String sourceCardName, @Nullable JSONB llmRawResponse, @Nullable String errorType, @Nullable String errorMessage, @Nullable OffsetDateTime createdAt, @Nullable OffsetDateTime updatedAt, @Nullable Short status, @Nullable Long targetCardId, @Nullable String targetCardName) {
         super(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG);
 
         setId(id);
@@ -207,9 +239,11 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
         setLlmRawResponse(llmRawResponse);
         setErrorType(errorType);
         setErrorMessage(errorMessage);
-        setResolved(resolved);
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
+        setStatus(status);
+        setTargetCardId(targetCardId);
+        setTargetCardName(targetCardName);
         resetChangedOnNotNull();
     }
 
@@ -226,9 +260,11 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
             setLlmRawResponse(value.getLlmRawResponse());
             setErrorType(value.getErrorType());
             setErrorMessage(value.getErrorMessage());
-            setResolved(value.getResolved());
             setCreatedAt(value.getCreatedAt());
             setUpdatedAt(value.getUpdatedAt());
+            setStatus(value.getStatus());
+            setTargetCardId(value.getTargetCardId());
+            setTargetCardName(value.getTargetCardName());
             resetChangedOnNotNull();
         }
     }

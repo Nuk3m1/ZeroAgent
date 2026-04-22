@@ -17,6 +17,7 @@ import org.zeroagent.domain.core.ai.chat.model.SystemPromptPool;
 import org.zeroagent.domain.core.ai.chat.model.media.MediaType;
 import org.zeroagent.domain.core.ai.chat.model.message.*;
 import org.zeroagent.domain.core.ai.chat.model.request.LlmRequest;
+import org.zeroagent.domain.core.ai.chat.model.response.LlmResponse;
 import org.zeroagent.domain.core.ai.chat.model.response.MessageChunk;
 import org.zeroagent.domain.core.ai.chat.model.toolcalling.ToolCallingBizResult;
 import org.zeroagent.domain.core.ai.chat.model.toolcalling.ToolCallingIntent;
@@ -51,7 +52,7 @@ public class AiChatServiceImpl implements AiChatService {
     private final ToolCallingService                toolCallingService;
     private final ConversationMessageRepository     conversationMessageRepository;
     private final ConversationRepository            conversationRepository;
-    private final WebClientFactory webClientFactory;
+    private final WebClientFactory                  webClientFactory;
     private final ObjectMapper                      objectMapper;
     private final DouBaoChatProperties              douBaoChatProperties;
     private final ToolCallingFactory                toolCallingFactory;
@@ -130,8 +131,8 @@ public class AiChatServiceImpl implements AiChatService {
                 .doFinally(signalType -> this.updateConversationComplete(context, userInput));
     }
 
-    // TODO 这里的userInput是否会多次载入？ 测试重复会话
-    private Flux<MessageChunk> chatWithAgent(LlmRequest request, ConversationContext context, String userInput) {
+    // userInput不会多次重复传入，已经被隔离在DouBaoChatStream()方法中
+    public Flux<MessageChunk> chatWithAgent(LlmRequest request, ConversationContext context, String userInput) {
         Map<Integer, ToolCallingIntent> intentMap = new HashMap<>();
         Flux<MessageChunk> LlmStream = webClientFactory.doubaoChatWebClient()
                 .post()
@@ -169,7 +170,7 @@ public class AiChatServiceImpl implements AiChatService {
                 List<ToolCallingBizResult> results = toolCallingService.executeToolCalling(intents);
                 // 更新上下文 （工具调用结果）
                 AssistantMessage assistantMessage = new AssistantMessage(MediaType.TEXT, "");
-                assistantMessage.getMetadata().put("tool_calls", formatIntentsForLlm(intents));
+                assistantMessage.getMetadata().put("tool_calls", ToolCallingIntent.formatIntentsForLlm(intents));
                 request.getMessages().add(assistantMessage);
 
                 for (ToolCallingBizResult result : results) {
@@ -226,46 +227,11 @@ public class AiChatServiceImpl implements AiChatService {
     private MessageChunk toMessageChunk(String data) {
         log.info(data);
         if ("[DONE]".equals(data)) {
-            return new MessageChunk()
-                    .setFinished(true)
-                    .setContent("")
-                    .setReasoningContent("");
+            return MessageChunk.done();
         }
         try {
-            DoubaoChatResponse response = objectMapper.readValue(data, DoubaoChatResponse.class);
-            // 容错处理：有时心跳包或者特定结构 choice 会为空
-            if (response.getChoices() == null || response.getChoices().isEmpty()) {
-                return new MessageChunk().setFinished(false).setContent("").setReasoningContent("");
-            }
-
-            DoubaoChatResponse.Choice choice = response.getChoices().getFirst();
-            DoubaoChatResponse.Delta delta = choice.getDelta();
-            // MessageChunk message = choice.getMessage();
-
-            // 提取数据
-            String text = (delta != null && delta.getContent() != null) ? delta.getContent() : "";
-            String reasoning = (delta != null && delta.getReasoningContent() != null) ? delta.getReasoningContent() : "";
-            boolean isFinished = StringUtils.hasText(choice.getFinishReason()) ;
-            MessageChunk messageChunk = new MessageChunk()
-                    .setContent(text)
-                    .setReasoningContent(reasoning)
-                    .setFinished(isFinished);
-
-            // 提取工具调用信息
-            if (delta != null && delta.getToolCalls() != null && !delta.getToolCalls().isEmpty()) {
-                for (DoubaoChatResponse.ToolCall toolCall : delta.getToolCalls()) {
-                    MessageChunk.ToolCallFragment toolCallFragment = new MessageChunk.ToolCallFragment()
-                            .setIndex(toolCall.getIndex())
-                            .setToolCallId(toolCall.getId());
-                    if (toolCall.getFunction() != null) {
-                        toolCallFragment.setToolName(toolCall.getFunction().getName());
-                        toolCallFragment.setToolArgumentsFragment(toolCall.getFunction().getArguments());
-                    }
-                    messageChunk.getToolCallFragments().add(toolCallFragment);
-                }
-            }
-            return messageChunk;
-
+            LlmResponse response = objectMapper.readValue(data, DoubaoChatResponse.class);
+            return MessageChunk.from(response);
         } catch (Exception e) {
             log.error("解析DouBaoChatAPI Response异常: {}", data, e);
             // 根据业务需求，这里可以选择抛出自定义异常，或者返回包含错误信息的 Chunk
@@ -274,17 +240,4 @@ public class AiChatServiceImpl implements AiChatService {
     }
 
 
-    private List<Map<String, Object>> formatIntentsForLlm(List<ToolCallingIntent> intents) {
-        return intents.stream().map(intent -> {
-            Map<String, Object> toolCall = new HashMap<>();
-            toolCall.put("id", intent.getToolCallId());
-            toolCall.put("type", "function");
-
-            Map<String, String> function = new HashMap<>();
-            function.put("name", intent.getToolName());
-            function.put("arguments", intent.getToolArgumentsJson());
-            toolCall.put("function", function);
-            return toolCall;
-        }).toList();
-    }
 }

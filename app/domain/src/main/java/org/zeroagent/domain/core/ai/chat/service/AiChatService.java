@@ -10,4 +10,6 @@ import reactor.core.publisher.Flux;
 public interface AiChatService {
     Flux<MessageChunk> DouBaoChatStream(Conversation conversation, UserMessage userMessage, String userInput);
 
+    Flux<MessageChunk> chatWithAgent(LlmRequest request, ConversationContext context, String userInput);
+
 }

@@ -35,9 +35,11 @@ public class GraphSyncErrorLog implements Serializable {
     private JSONB llmRawResponse;
     private String errorType;
     private String errorMessage;
-    private Boolean resolved;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
+    private Short status;
+    private Long targetCardId;
+    private String targetCardName;
 
     public GraphSyncErrorLog() {}
 
@@ -48,9 +50,11 @@ public class GraphSyncErrorLog implements Serializable {
         this.llmRawResponse = value.llmRawResponse;
         this.errorType = value.errorType;
         this.errorMessage = value.errorMessage;
-        this.resolved = value.resolved;
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
+        this.status = value.status;
+        this.targetCardId = value.targetCardId;
+        this.targetCardName = value.targetCardName;
     }
 
     public GraphSyncErrorLog(
@@ -60,9 +64,11 @@ public class GraphSyncErrorLog implements Serializable {
         @Nullable JSONB llmRawResponse,
         @Nullable String errorType,
         @Nullable String errorMessage,
-        @Nullable Boolean resolved,
         @Nullable OffsetDateTime createdAt,
-        @Nullable OffsetDateTime updatedAt
+        @Nullable OffsetDateTime updatedAt,
+        @Nullable Short status,
+        @Nullable Long targetCardId,
+        @Nullable String targetCardName
     ) {
         this.id = id;
         this.sourceCardId = sourceCardId;
@@ -70,9 +76,11 @@ public class GraphSyncErrorLog implements Serializable {
         this.llmRawResponse = llmRawResponse;
         this.errorType = errorType;
         this.errorMessage = errorMessage;
-        this.resolved = resolved;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.status = status;
+        this.targetCardId = targetCardId;
+        this.targetCardName = targetCardName;
     }
 
     /**
@@ -172,22 +180,6 @@ public class GraphSyncErrorLog implements Serializable {
     }
 
     /**
-     * Getter for <code>public.graph_sync_error_log.resolved</code>.
-     */
-    @Nullable
-    public Boolean getResolved() {
-        return this.resolved;
-    }
-
-    /**
-     * Setter for <code>public.graph_sync_error_log.resolved</code>.
-     */
-    public GraphSyncErrorLog setResolved(@Nullable Boolean resolved) {
-        this.resolved = resolved;
-        return this;
-    }
-
-    /**
      * Getter for <code>public.graph_sync_error_log.created_at</code>.
      */
     @Nullable
@@ -216,6 +208,54 @@ public class GraphSyncErrorLog implements Serializable {
      */
     public GraphSyncErrorLog setUpdatedAt(@Nullable OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.status</code>.
+     */
+    @Nullable
+    public Short getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Setter for <code>public.graph_sync_error_log.status</code>.
+     */
+    public GraphSyncErrorLog setStatus(@Nullable Short status) {
+        this.status = status;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.target_card_id</code>.
+     */
+    @Nullable
+    public Long getTargetCardId() {
+        return this.targetCardId;
+    }
+
+    /**
+     * Setter for <code>public.graph_sync_error_log.target_card_id</code>.
+     */
+    public GraphSyncErrorLog setTargetCardId(@Nullable Long targetCardId) {
+        this.targetCardId = targetCardId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.target_card_name</code>.
+     */
+    @Nullable
+    public String getTargetCardName() {
+        return this.targetCardName;
+    }
+
+    /**
+     * Setter for <code>public.graph_sync_error_log.target_card_name</code>.
+     */
+    public GraphSyncErrorLog setTargetCardName(@Nullable String targetCardName) {
+        this.targetCardName = targetCardName;
         return this;
     }
 
@@ -264,12 +304,6 @@ public class GraphSyncErrorLog implements Serializable {
         }
         else if (!this.errorMessage.equals(other.errorMessage))
             return false;
-        if (this.resolved == null) {
-            if (other.resolved != null)
-                return false;
-        }
-        else if (!this.resolved.equals(other.resolved))
-            return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
                 return false;
@@ -281,6 +315,24 @@ public class GraphSyncErrorLog implements Serializable {
                 return false;
         }
         else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
+        if (this.targetCardId == null) {
+            if (other.targetCardId != null)
+                return false;
+        }
+        else if (!this.targetCardId.equals(other.targetCardId))
+            return false;
+        if (this.targetCardName == null) {
+            if (other.targetCardName != null)
+                return false;
+        }
+        else if (!this.targetCardName.equals(other.targetCardName))
             return false;
         return true;
     }
@@ -295,9 +347,11 @@ public class GraphSyncErrorLog implements Serializable {
         result = prime * result + ((this.llmRawResponse == null) ? 0 : this.llmRawResponse.hashCode());
         result = prime * result + ((this.errorType == null) ? 0 : this.errorType.hashCode());
         result = prime * result + ((this.errorMessage == null) ? 0 : this.errorMessage.hashCode());
-        result = prime * result + ((this.resolved == null) ? 0 : this.resolved.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.targetCardId == null) ? 0 : this.targetCardId.hashCode());
+        result = prime * result + ((this.targetCardName == null) ? 0 : this.targetCardName.hashCode());
         return result;
     }
 
@@ -311,9 +365,11 @@ public class GraphSyncErrorLog implements Serializable {
         sb.append(", ").append(llmRawResponse);
         sb.append(", ").append(errorType);
         sb.append(", ").append(errorMessage);
-        sb.append(", ").append(resolved);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
+        sb.append(", ").append(status);
+        sb.append(", ").append(targetCardId);
+        sb.append(", ").append(targetCardName);
 
         sb.append(")");
         return sb.toString();

@@ -161,21 +161,6 @@ public class GraphSyncErrorLogDao extends DAOImpl<GraphSyncErrorLogRecord, org.z
     }
 
     /**
-     * Fetch records that have <code>resolved BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchRangeOfResolved(Boolean lowerInclusive, Boolean upperInclusive) {
-        return fetchRange(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.RESOLVED, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>resolved IN (values)</code>
-     */
-    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByResolved(Boolean... values) {
-        return fetch(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.RESOLVED, values);
-    }
-
-    /**
      * Fetch records that have <code>created_at BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
@@ -203,5 +188,50 @@ public class GraphSyncErrorLogDao extends DAOImpl<GraphSyncErrorLogRecord, org.z
      */
     public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByUpdatedAt(OffsetDateTime... values) {
         return fetch(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.UPDATED_AT, values);
+    }
+
+    /**
+     * Fetch records that have <code>status BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchRangeOfStatus(Short lowerInclusive, Short upperInclusive) {
+        return fetchRange(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.STATUS, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>status IN (values)</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByStatus(Short... values) {
+        return fetch(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.STATUS, values);
+    }
+
+    /**
+     * Fetch records that have <code>target_card_id BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchRangeOfTargetCardId(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.TARGET_CARD_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>target_card_id IN (values)</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByTargetCardId(Long... values) {
+        return fetch(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.TARGET_CARD_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>target_card_name BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchRangeOfTargetCardName(String lowerInclusive, String upperInclusive) {
+        return fetchRange(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.TARGET_CARD_NAME, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>target_card_name IN (values)</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByTargetCardName(String... values) {
+        return fetch(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.TARGET_CARD_NAME, values);
     }
 }

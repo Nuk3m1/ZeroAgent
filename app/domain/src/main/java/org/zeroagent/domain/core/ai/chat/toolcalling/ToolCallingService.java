@@ -6,7 +6,7 @@ import org.zeroagent.domain.core.ai.chat.model.toolcalling.ToolCallingIntent;
 import java.util.List;
 
 /**
- * 封装工具调用的查询上下文 - RestClient
+ * 封装工具调用的查询上下文
  * @author Nuk3m1
  * @version 2026年04月14日  22时35分
  */

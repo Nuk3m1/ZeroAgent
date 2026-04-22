@@ -17,7 +17,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class MessageChunk {
 
-    private Boolean finished;
+    private Boolean isFinished;
 
     @JsonProperty("reasoning_content")
     private String  reasoningContent;
@@ -47,6 +47,31 @@ public class MessageChunk {
          * 工具碎片
          */
         private String toolArgumentsFragment;
+    }
+
+    public static MessageChunk from(LlmResponse response) {
+        if (response.isEmpty()) {
+            return new MessageChunk().setIsFinished(false).setContent("").setReasoningContent("");
+        }
+        MessageChunk messageChunk = new MessageChunk()
+                .setContent(response.getContent())
+                .setReasoningContent(response.getReasoningContent())
+                .setIsFinished(response.isFinished());
+        for (LlmResponse.ToolCallInfo toolCallInfo : response.getToolCalls()) {
+            ToolCallFragment toolCallFragment = new ToolCallFragment()
+                    .setIndex(toolCallInfo.getIndex())
+                    .setToolCallId(toolCallInfo.getId())
+                    .setToolName(toolCallInfo.getFunctionName())
+                    .setToolArgumentsFragment(toolCallInfo.getFunctionArguments());
+            messageChunk.getToolCallFragments().add(toolCallFragment);
+        }
+        return messageChunk;
+    }
+    public static MessageChunk done() {
+        return new MessageChunk()
+                .setIsFinished(true)
+                .setContent("")
+                .setReasoningContent("");
     }
 
 }

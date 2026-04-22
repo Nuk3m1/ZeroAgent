@@ -71,6 +71,7 @@
 
 ### 1. 环境准备
 确保您的本地已安装 Java 21+、PostgreSQL 和 Neo4j。
+在infra模块中的pom.xml文件的 build.plugins.plugin.configuration.jdbc 内填入数据库相关配置属性
 
 ### 2. 配置您的“密码本”
 本项目的所有敏感密钥均已从 `application.yml` 中抽离。请在 `src/main/resources` 目录下的 `application-dev.yml` 文件：

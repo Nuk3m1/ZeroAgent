@@ -94,11 +94,6 @@ public class GraphSyncErrorLog extends TableImpl<GraphSyncErrorLogRecord> {
     public final TableField<GraphSyncErrorLogRecord, String> ERROR_MESSAGE = createField(DSL.name("error_message"), SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>public.graph_sync_error_log.resolved</code>.
-     */
-    public final TableField<GraphSyncErrorLogRecord, Boolean> RESOLVED = createField(DSL.name("resolved"), SQLDataType.BOOLEAN.defaultValue(DSL.field(DSL.raw("false"), SQLDataType.BOOLEAN)), this, "");
-
-    /**
      * The column <code>public.graph_sync_error_log.created_at</code>.
      */
     public final TableField<GraphSyncErrorLogRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
@@ -107,6 +102,21 @@ public class GraphSyncErrorLog extends TableImpl<GraphSyncErrorLogRecord> {
      * The column <code>public.graph_sync_error_log.updated_at</code>.
      */
     public final TableField<GraphSyncErrorLogRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
+
+    /**
+     * The column <code>public.graph_sync_error_log.status</code>.
+     */
+    public final TableField<GraphSyncErrorLogRecord, Short> STATUS = createField(DSL.name("status"), SQLDataType.SMALLINT, this, "");
+
+    /**
+     * The column <code>public.graph_sync_error_log.target_card_id</code>.
+     */
+    public final TableField<GraphSyncErrorLogRecord, Long> TARGET_CARD_ID = createField(DSL.name("target_card_id"), SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>public.graph_sync_error_log.target_card_name</code>.
+     */
+    public final TableField<GraphSyncErrorLogRecord, String> TARGET_CARD_NAME = createField(DSL.name("target_card_name"), SQLDataType.VARCHAR(256), this, "");
 
     private GraphSyncErrorLog(Name alias, Table<GraphSyncErrorLogRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);

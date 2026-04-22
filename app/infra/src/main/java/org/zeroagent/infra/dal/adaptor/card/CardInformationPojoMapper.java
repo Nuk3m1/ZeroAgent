@@ -93,24 +93,14 @@ public interface CardInformationPojoMapper extends ModelMapper<CardInformation, 
     }
 
     default CardInformationStatusEnum graphSyncStatusToCardInformationStatusEnum(int graphSyncStatus) {
-        if (graphSyncStatus == 0) {
-            return null;
-        }
-        switch (graphSyncStatus) {
-            case 0:
-                return CardInformationStatusEnum.PENDING;
-            case 1:
-                return CardInformationStatusEnum.COMPLETED;
-            case 2:
-                return CardInformationStatusEnum.SUCCESS;
-            case 3:
-                return CardInformationStatusEnum.FAILURE;
-            case 4:
-                return CardInformationStatusEnum.EXECUTING;
-
-            default:
-                throw new IllegalArgumentException("Invalid graph sync status: " + graphSyncStatus);
-        }
+        return switch (graphSyncStatus) {
+            case 0 -> CardInformationStatusEnum.PENDING;
+            case 1 -> CardInformationStatusEnum.COMPLETED;
+            case 2 -> CardInformationStatusEnum.SUCCESS;
+            case 3 -> CardInformationStatusEnum.FAILURE;
+            case 4 -> CardInformationStatusEnum.EXECUTING;
+            default -> throw new IllegalArgumentException("Invalid graph sync status: " + graphSyncStatus);
+        };
     }
     default int cardInformationStatusToGraphSyncStatus(CardInformationStatusEnum cardInformationStatus) {
         if (cardInformationStatus == null) {

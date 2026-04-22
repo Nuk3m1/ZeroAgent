@@ -29,4 +29,12 @@ public class SystemPromptPool {
             请按照标准 Markdown 格式输出，内容结构化、排版清晰，只输出 Markdown 格式的文本，不包含开头和结尾的废话。
             然后再给出你的总结。
             """;
+    /**
+     * 检索关系抽取 提示词
+     */
+    public final String CARD_SEARCH_RULES_EXTRACT_PROMPT = """
+            你是一个专业的数据抽取引擎。
+            你的唯一任务是阅读卡牌效果描述，严格调用 工具,将卡牌描述的检索条件从自然语言提取出来，填入工具调用的参数中.
+            除了工具调用，绝对不允许输出任何其他解释性文本！
+            """;
 }

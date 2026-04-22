@@ -9,8 +9,8 @@ import lombok.Getter;
  */
 @Getter
 public enum ToolCallingEnum {
-    GET_CARD_KNOWLEDGE_BY_NAME("getCardKnowledgeByName", " 通过 卡名 获得 卡牌信息 及其 图谱关系 ")
-
+    GET_CARD_KNOWLEDGE_BY_NAME("getCardKnowledgeByName", " 通过 卡名 获得 卡牌信息 及其 图谱关系 "),
+    EXTRACT_SEARCH_INFORMATION_FROM_CARD("extractSearchInformationFromCard", "用于从卡牌信息中抽取 结构化信息 建立图谱关系")
 
     ;
     private final String functionName;

@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.zeroagent.common.mapper.BaseMapperConfig;
 import org.zeroagent.common.utils.json.JSON;
 import org.zeroagent.domain.core.grapherror.model.GraphErrorLog;
+import org.zeroagent.domain.core.grapherror.model.GraphErrorLogStatus;
 import org.zeroagent.infra.dal.common.ModelMapper;
 
 import org.zeroagent.infra.dal.common.UpdatableBuilder;
@@ -42,13 +43,32 @@ public interface GraphErrorLogPojoMapper extends ModelMapper<GraphErrorLog, Grap
         return JSONB.jsonb(response.toString());
     }
 
+    default GraphErrorLogStatus statusToGraphErrorLogStatus(int status) {
+        return switch (status) {
+            case 0 -> GraphErrorLogStatus.FAILED;
+            case 1 -> GraphErrorLogStatus.CREATED;
+            case 2 -> GraphErrorLogStatus.WAITING;
+            case 3 -> GraphErrorLogStatus.SUCCESS;
+            default -> throw new IllegalArgumentException("invalid status " + status);
+        };
+    }
+
+    default int graphErrorLogStatusToStatus(GraphErrorLogStatus status) {
+        if (status == null) {
+            throw new IllegalArgumentException("invalid status " + status);
+        }
+        return status.getStatus();
+    }
+
     @Override
     default void updatable(UpdatableBuilder<GraphSyncErrorLogRecord> builder) {
         builder.updatable(GRAPH_SYNC_ERROR_LOG.ERROR_MESSAGE);
         builder.updatable(GRAPH_SYNC_ERROR_LOG.ERROR_TYPE);
         builder.updatable(GRAPH_SYNC_ERROR_LOG.SOURCE_CARD_ID);
         builder.updatable(GRAPH_SYNC_ERROR_LOG.SOURCE_CARD_NAME);
-        builder.updatable(GRAPH_SYNC_ERROR_LOG.RESOLVED);
+        builder.updatable(GRAPH_SYNC_ERROR_LOG.STATUS);
         builder.updatable(GRAPH_SYNC_ERROR_LOG.LLM_RAW_RESPONSE);
+        builder.updatable(GRAPH_SYNC_ERROR_LOG.TARGET_CARD_ID);
+        builder.updatable(GRAPH_SYNC_ERROR_LOG.TARGET_CARD_NAME);
     }
 }

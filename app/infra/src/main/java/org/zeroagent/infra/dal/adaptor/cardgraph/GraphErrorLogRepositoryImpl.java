@@ -9,6 +9,7 @@ import org.zeroagent.infra.dal.tables.daos.GraphSyncErrorLogDao;
 import org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog;
 import org.zeroagent.infra.dal.tables.records.GraphSyncErrorLogRecord;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,5 +51,11 @@ public class GraphErrorLogRepositoryImpl implements GraphErrorLogRepository {
     @Override
     public Optional<GraphErrorLog> findById(long id) {
         return graphSyncErrorLogDao.fetchOptionalById(id).map(graphErrorLogMapper::toModel);
+    }
+
+    @Override
+    public void batchInsert(List<GraphErrorLog> graphErrorLogs) {
+        List<GraphSyncErrorLog> graphSyncErrorLogs = graphErrorLogMapper.toEntities(graphErrorLogs);
+        graphSyncErrorLogDao.insert(graphSyncErrorLogs);
     }
 }

@@ -32,4 +32,9 @@ public class AiChatResource {
         return aiChatManager.chat(request)
                 .map(ApiResult::success);
     }
+
+    @PostMapping(path = "/extract")
+    private void test() {
+        aiChatManager.extractRulesTest();
+    }
 }

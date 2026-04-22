@@ -27,7 +27,7 @@ public class GraphErrorLog {
      */
     private ZonedDateTime                       updatedAt;
     /**
-     * 源卡牌ID
+     * 源卡牌卡密
      */
     private Long                                sourceCardId;
     /**
@@ -49,7 +49,14 @@ public class GraphErrorLog {
     /**
      * 是否修复
      */
-    private boolean                             resolved;
-
+    private GraphErrorLogStatus                 status;
+    /**
+     * 目标卡牌卡密
+     */
+    private Long                              targetCardId;
+    /**
+     * 目标卡牌名称
+     */
+    private String                              targetCardName;
 
 }

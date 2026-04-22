@@ -1,14 +1,14 @@
 package org.zeroagent.domain.core.ai.chat.toolcalling;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
- * 工厂类 - 仅通过该类获得工具调用函数
+ * 工厂类 - 仅通过该类获得并操作 工具调用函数
  * @author Nuk3m1
  * @version 2026年04月14日  21时04分
  */

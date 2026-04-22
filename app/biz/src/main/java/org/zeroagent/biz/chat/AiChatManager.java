@@ -11,6 +11,8 @@ import org.zeroagent.domain.core.ai.chat.model.response.MessageChunk;
 import org.zeroagent.domain.core.ai.chat.model.request.AiChatRequestVO;
 import org.zeroagent.domain.core.ai.chat.service.AiChatService;
 import org.zeroagent.domain.core.ai.chat.service.ConversationRepository;
+import org.zeroagent.domain.core.ai.chat.toolcalling.ToolCallingEnum;
+import org.zeroagent.domain.core.grapherror.service.ExtractRelationshipService;
 import org.zeroagent.domain.core.utils.IdCryptoUtil;
 import reactor.core.publisher.Flux;
 
@@ -26,7 +28,7 @@ import reactor.core.publisher.Flux;
 public class AiChatManager {
     private final AiChatService         aiChatService;
     private final ConversationRepository conversationRepository;
-
+    private final ExtractRelationshipService extractRelationshipService;
 
 
     public Flux<MessageChunk> chat(AiChatRequestVO request) {
@@ -46,5 +48,11 @@ public class AiChatManager {
         return aiChatService.DouBaoChatStream(conversation, userMessage, userInput);
     }
 
+
+    public void extractRulesTest() {
+        extractRelationshipService.extractCardRules("362597855078152211", "元素英雄 天空侠", "①：这张卡召唤·特殊召唤时，可以从以下效果选择1个发动。\n" +
+                "●把最多有自己场上的其他的「英雄」怪兽数量的场上的魔法·陷阱卡破坏。\n" +
+                "●从卡组把1只「英雄」怪兽加入手卡。", ToolCallingEnum.EXTRACT_SEARCH_INFORMATION_FROM_CARD);
+    }
 
 }

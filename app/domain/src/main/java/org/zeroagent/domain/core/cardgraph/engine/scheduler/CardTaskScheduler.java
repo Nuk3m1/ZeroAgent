@@ -29,10 +29,10 @@ import java.util.concurrent.TimeUnit;
 @ConditionalOnProperty(prefix = "application.card-task.scheduler", value = "enabled", havingValue = "true")
 public class CardTaskScheduler {
     private final CardInformationRepository cardInformationRepository;
-    private final AsyncTemplate asyncTemplate;
-    private final TransactionTemplate transactionTemplate;
-    private final AppAlertHelper appAlertHelper;
-    private final CardTaskEngine cardTaskEngine;
+    private final AsyncTemplate             asyncTemplate;
+    private final TransactionTemplate       transactionTemplate;
+    private final AppAlertHelper            appAlertHelper;
+    private final CardTaskEngine            cardTaskEngine;
 
     private final static Duration TIMEOUT = Duration.ofSeconds(30);
     // 每次捞取数量

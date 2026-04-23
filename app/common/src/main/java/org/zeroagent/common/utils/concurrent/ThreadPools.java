@@ -29,7 +29,6 @@ public class ThreadPools {
         return (runnable, executor) -> {
             log.error("Task {} rejected from {},{}", runnable, executor, threadPoolName);
             handler.rejectedExecution(runnable, executor);
-            throw new ThreadPoolRejectedException(CommonErrorCode.SLA_LIMITED);
         };
     }
     public static ExecutorService newSingleton(String threadPoolName) {

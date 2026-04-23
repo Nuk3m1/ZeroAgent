@@ -13,7 +13,6 @@ import javax.annotation.processing.Generated;
 
 import org.jooq.Condition;
 import org.jooq.Field;
-import org.jooq.Identity;
 import org.jooq.JSONB;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
@@ -65,7 +64,7 @@ public class GraphSyncErrorLog extends TableImpl<GraphSyncErrorLogRecord> {
     /**
      * The column <code>public.graph_sync_error_log.id</code>.
      */
-    public final TableField<GraphSyncErrorLogRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<GraphSyncErrorLogRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.graph_sync_error_log.source_card_id</code>.
@@ -153,11 +152,6 @@ public class GraphSyncErrorLog extends TableImpl<GraphSyncErrorLogRecord> {
     @Nullable
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
-    }
-
-    @Override
-    public Identity<GraphSyncErrorLogRecord, Long> getIdentity() {
-        return (Identity<GraphSyncErrorLogRecord, Long>) super.getIdentity();
     }
 
     @Override

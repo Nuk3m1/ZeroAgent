@@ -58,7 +58,7 @@ public class GraphSyncErrorLog implements Serializable {
     }
 
     public GraphSyncErrorLog(
-        @Nullable Long id,
+        Long id,
         Long sourceCardId,
         String sourceCardName,
         @Nullable JSONB llmRawResponse,
@@ -86,7 +86,6 @@ public class GraphSyncErrorLog implements Serializable {
     /**
      * Getter for <code>public.graph_sync_error_log.id</code>.
      */
-    @Nullable
     public Long getId() {
         return this.id;
     }
@@ -94,7 +93,7 @@ public class GraphSyncErrorLog implements Serializable {
     /**
      * Setter for <code>public.graph_sync_error_log.id</code>.
      */
-    public GraphSyncErrorLog setId(@Nullable Long id) {
+    public GraphSyncErrorLog setId(Long id) {
         this.id = id;
         return this;
     }

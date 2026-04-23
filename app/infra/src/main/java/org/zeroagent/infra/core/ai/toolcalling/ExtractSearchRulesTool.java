@@ -91,7 +91,7 @@ public class ExtractSearchRulesTool implements ToolCallingExecutor {
         ObjectNode race = properties.putObject("race");
         race.putArray("type").add("string").add("null");
         race.putArray("enum")
-                .add("战士族").add("魔法使族").add("天使族").add("恶魔族").add("不死族").add("机械族")
+                .add("战士族").add("魔法师族").add("天使族").add("恶魔族").add("不死族").add("机械族")
                 .add("水族").add("炎族").add("岩石族").add("鸟兽族").add("植物族").add("昆虫族")
                 .add("雷族").add("龙族").add("兽族").add("兽战士族").add("恐龙族").add("鱼族")
                 .add("海龙族").add("爬虫类族").add("念动力族").add("幻神兽族").add("创造神族").add("幻龙族")

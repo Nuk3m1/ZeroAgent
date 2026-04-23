@@ -10,6 +10,7 @@ import org.jooq.Field;
 import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.zeroagent.common.id.IdHelper;
 import org.zeroagent.domain.core.card.model.CardInformation;
 import org.zeroagent.domain.core.card.model.CardInformationQO;
@@ -186,7 +187,7 @@ public class CardInformationRepositoryImpl implements CardInformationRepository 
                                              Field<T> field,
                                              String operator,
                                              T value) {
-        if (value == null || !operator.isBlank()) {
+        if (value == null || !StringUtils.hasText(operator)) {
             return currentCondition;
         }
         return switch (operator) {

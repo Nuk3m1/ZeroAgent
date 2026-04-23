@@ -83,7 +83,7 @@ class PageRequest extends AbstractPageRequest {
                 .defaultPageSize(getDefaultPageSize())
                 .maxPageSize(getMaxPageSize())
                 .needTotal(key == PageConfigKey.NEED_TOTAL ? enabled : needTotal())
-                .needContent(key == PageConfigKey.NEED_CONTENT ? enabled : needTotal())
+                .needContent(key == PageConfigKey.NEED_CONTENT ? enabled : needContent())
                 .fixEdge(key == PageConfigKey.FIX_EDGE ? enabled : isFixEdge())
                 .pageNumberOneIndexed(key == PageConfigKey.PAGE_NUMBER_ONE_INDEXED ? enabled : isPageNumberOneIndexed())
                 .sort(getSort())

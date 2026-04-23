@@ -72,6 +72,7 @@ public class AiChatServiceImpl implements AiChatService {
             // 初始化会话
             firstRound = true;
             conversationId = Long.parseLong(IdHelper.getStrId());
+            conversation.setId(conversationId);
             // 持久化到数据库
             Conversation convModel = new Conversation().setId(conversationId);
             ConversationMessage conversationMessage = new ConversationMessage()
@@ -94,7 +95,7 @@ public class AiChatServiceImpl implements AiChatService {
                     .setConversationId(conversationId)
                     .setRole(MessageType.USER)
                     .setContent(userMessage.getContent());
-            conversationMessageRepository.create(conversationMessage);
+
             // 请求体 载入历史记录
             messages.addAll(conversationMessageRepository.queryByConversationId(conversationId)
                     .stream()
@@ -106,6 +107,7 @@ public class AiChatServiceImpl implements AiChatService {
                             case TOOL -> new ToolMessage(convMessage.getContent());
                         };
                     }).toList());
+            conversationMessageRepository.create(conversationMessage);
         }
         // 插入用户提示词 role : user
         messages.add(userMessage);

@@ -34,7 +34,7 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
     /**
      * Setter for <code>public.graph_sync_error_log.id</code>.
      */
-    public GraphSyncErrorLogRecord setId(@Nullable Long value) {
+    public GraphSyncErrorLogRecord setId(Long value) {
         set(0, value);
         return this;
     }
@@ -42,7 +42,6 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
     /**
      * Getter for <code>public.graph_sync_error_log.id</code>.
      */
-    @Nullable
     public Long getId() {
         return (Long) get(0);
     }
@@ -230,7 +229,7 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
     /**
      * Create a detached, initialised GraphSyncErrorLogRecord
      */
-    public GraphSyncErrorLogRecord(@Nullable Long id, Long sourceCardId, String sourceCardName, @Nullable JSONB llmRawResponse, @Nullable String errorType, @Nullable String errorMessage, @Nullable OffsetDateTime createdAt, @Nullable OffsetDateTime updatedAt, @Nullable Short status, @Nullable Long targetCardId, @Nullable String targetCardName) {
+    public GraphSyncErrorLogRecord(Long id, Long sourceCardId, String sourceCardName, @Nullable JSONB llmRawResponse, @Nullable String errorType, @Nullable String errorMessage, @Nullable OffsetDateTime createdAt, @Nullable OffsetDateTime updatedAt, @Nullable Short status, @Nullable Long targetCardId, @Nullable String targetCardName) {
         super(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG);
 
         setId(id);

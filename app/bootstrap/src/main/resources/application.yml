@@ -1,12 +1,14 @@
 zeroagent:
   llm:
+    seedream:
+      api-key: ${seedream.api-key}
     doubao:
       base-url: 'https://ark.cn-beijing.volces.com/api'
       api-key: ${llm.api-key}
       chat:
         completion-path: '/v3/chat/completions'
-#        model: 'doubao-seed-2-0-mini-260215'
-        model: 'doubao-seed-2-0-pro-260215'
+        model: 'doubao-seed-2-0-mini-260215'
+#        model: 'doubao-seed-2-0-pro-260215'
 
   baige:
     url: 'https://ygocdb.com'
@@ -15,9 +17,14 @@ zeroagent:
     larksuite-url: 'https://open.larksuite.com'
     app-id: ${feishu.app-id}
     app-secret: ${feishu.app-secret}
+
+  QQ:
+    bot:
+      app-id: ${QQ.bot.app-id}
+      app-secret: ${QQ.bot.app-secret}
 spring:
   profiles:
-    active: dev
+    active: local
   main:
     web-application-type: servlet
   application:
@@ -74,9 +81,19 @@ volcengine:
       read-endpoint: tos-cn-shanghai.volces.com #公网读
       bucket: ${volcengine.cloud.tos.bucket}
 
-
-
 application:
+  # 卡牌结构化关系建立定时任务
   card-task:
+    scheduler:
+      enabled: false
+  # 语义关系抽取定时任务
+  semantic-extract:
+    scheduler:
+      enabled: false
+  # 语义关系审批定时任务
+  graph-approval:
+    scheduler:
+      enabled: false
+  ai-task:
     scheduler:
       enabled: true

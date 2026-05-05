@@ -49,10 +49,5 @@ public class AiChatManager {
     }
 
 
-    public void extractRulesTest() {
-        extractRelationshipService.extractCardRules("362597855078152211", "元素英雄 天空侠", "①：这张卡召唤·特殊召唤时，可以从以下效果选择1个发动。\n" +
-                "●把最多有自己场上的其他的「英雄」怪兽数量的场上的魔法·陷阱卡破坏。\n" +
-                "●从卡组把1只「英雄」怪兽加入手卡。", ToolCallingEnum.EXTRACT_SEARCH_INFORMATION_FROM_CARD);
-    }
 
 }

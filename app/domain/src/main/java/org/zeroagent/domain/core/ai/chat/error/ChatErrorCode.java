@@ -12,7 +12,9 @@ import org.zeroagent.common.problem.error.ErrorCode;
 @Getter
 @RequiredArgsConstructor
 public enum ChatErrorCode implements ErrorCode {
-    CHAT_CALL_LLM_ERROR("服务器繁忙，请稍后重试")
+    CHAT_CALL_LLM_ERROR("服务器繁忙，请稍后重试"),
+    PARAM_ERROR("参数错误")
+
     ;
     private final String msg;
 

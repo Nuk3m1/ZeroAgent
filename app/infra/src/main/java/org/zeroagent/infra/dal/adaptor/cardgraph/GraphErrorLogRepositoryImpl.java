@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 import org.zeroagent.domain.core.grapherror.model.GraphErrorLog;
+import org.zeroagent.domain.core.grapherror.model.GraphErrorLogStatus;
 import org.zeroagent.domain.core.grapherror.service.GraphErrorLogRepository;
 import org.zeroagent.infra.dal.tables.daos.GraphSyncErrorLogDao;
 import org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog;
@@ -57,5 +58,27 @@ public class GraphErrorLogRepositoryImpl implements GraphErrorLogRepository {
     public void batchInsert(List<GraphErrorLog> graphErrorLogs) {
         List<GraphSyncErrorLog> graphSyncErrorLogs = graphErrorLogMapper.toEntities(graphErrorLogs);
         graphSyncErrorLogDao.insert(graphSyncErrorLogs);
+    }
+
+    @Override
+    public List<GraphErrorLog> fetchBatchByStatus(int limit, GraphErrorLogStatus status) {
+        return dsl.selectFrom(GRAPH_SYNC_ERROR_LOG)
+                .where(GRAPH_SYNC_ERROR_LOG.STATUS.eq((short) status.getStatus()))
+                .orderBy(GRAPH_SYNC_ERROR_LOG.ID.asc())
+                .limit(limit)
+                .forUpdate()
+                .skipLocked()
+                .fetchInto(GraphSyncErrorLog.class)
+                .stream()
+                .map(graphErrorLogMapper::toModel)
+                .toList();
+    }
+
+    @Override
+    public void updateStatusById(long id, GraphErrorLogStatus status) {
+        dsl.update(GRAPH_SYNC_ERROR_LOG)
+                .set(GRAPH_SYNC_ERROR_LOG.STATUS, (short) status.getStatus())
+                .where(GRAPH_SYNC_ERROR_LOG.ID.eq(id))
+                .execute();
     }
 }

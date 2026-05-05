@@ -7,7 +7,7 @@ package org.zeroagent.infra.dal.tables.pojos;
 import jakarta.annotation.Nullable;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import javax.annotation.processing.Generated;
 
@@ -35,11 +35,14 @@ public class GraphSyncErrorLog implements Serializable {
     private JSONB llmRawResponse;
     private String errorType;
     private String errorMessage;
-    private OffsetDateTime createdAt;
-    private OffsetDateTime updatedAt;
+    private ZonedDateTime createdAt;
+    private ZonedDateTime updatedAt;
     private Short status;
     private Long targetCardId;
     private String targetCardName;
+    private String graphRelationType;
+    private String sourceCardEffect;
+    private String targetCardEffect;
 
     public GraphSyncErrorLog() {}
 
@@ -55,6 +58,9 @@ public class GraphSyncErrorLog implements Serializable {
         this.status = value.status;
         this.targetCardId = value.targetCardId;
         this.targetCardName = value.targetCardName;
+        this.graphRelationType = value.graphRelationType;
+        this.sourceCardEffect = value.sourceCardEffect;
+        this.targetCardEffect = value.targetCardEffect;
     }
 
     public GraphSyncErrorLog(
@@ -64,11 +70,14 @@ public class GraphSyncErrorLog implements Serializable {
         @Nullable JSONB llmRawResponse,
         @Nullable String errorType,
         @Nullable String errorMessage,
-        @Nullable OffsetDateTime createdAt,
-        @Nullable OffsetDateTime updatedAt,
+        @Nullable ZonedDateTime createdAt,
+        @Nullable ZonedDateTime updatedAt,
         @Nullable Short status,
         @Nullable Long targetCardId,
-        @Nullable String targetCardName
+        @Nullable String targetCardName,
+        @Nullable String graphRelationType,
+        @Nullable String sourceCardEffect,
+        @Nullable String targetCardEffect
     ) {
         this.id = id;
         this.sourceCardId = sourceCardId;
@@ -81,6 +90,9 @@ public class GraphSyncErrorLog implements Serializable {
         this.status = status;
         this.targetCardId = targetCardId;
         this.targetCardName = targetCardName;
+        this.graphRelationType = graphRelationType;
+        this.sourceCardEffect = sourceCardEffect;
+        this.targetCardEffect = targetCardEffect;
     }
 
     /**
@@ -182,14 +194,14 @@ public class GraphSyncErrorLog implements Serializable {
      * Getter for <code>public.graph_sync_error_log.created_at</code>.
      */
     @Nullable
-    public OffsetDateTime getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return this.createdAt;
     }
 
     /**
      * Setter for <code>public.graph_sync_error_log.created_at</code>.
      */
-    public GraphSyncErrorLog setCreatedAt(@Nullable OffsetDateTime createdAt) {
+    public GraphSyncErrorLog setCreatedAt(@Nullable ZonedDateTime createdAt) {
         this.createdAt = createdAt;
         return this;
     }
@@ -198,14 +210,14 @@ public class GraphSyncErrorLog implements Serializable {
      * Getter for <code>public.graph_sync_error_log.updated_at</code>.
      */
     @Nullable
-    public OffsetDateTime getUpdatedAt() {
+    public ZonedDateTime getUpdatedAt() {
         return this.updatedAt;
     }
 
     /**
      * Setter for <code>public.graph_sync_error_log.updated_at</code>.
      */
-    public GraphSyncErrorLog setUpdatedAt(@Nullable OffsetDateTime updatedAt) {
+    public GraphSyncErrorLog setUpdatedAt(@Nullable ZonedDateTime updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }
@@ -255,6 +267,54 @@ public class GraphSyncErrorLog implements Serializable {
      */
     public GraphSyncErrorLog setTargetCardName(@Nullable String targetCardName) {
         this.targetCardName = targetCardName;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.graph_relation_type</code>.
+     */
+    @Nullable
+    public String getGraphRelationType() {
+        return this.graphRelationType;
+    }
+
+    /**
+     * Setter for <code>public.graph_sync_error_log.graph_relation_type</code>.
+     */
+    public GraphSyncErrorLog setGraphRelationType(@Nullable String graphRelationType) {
+        this.graphRelationType = graphRelationType;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.source_card_effect</code>.
+     */
+    @Nullable
+    public String getSourceCardEffect() {
+        return this.sourceCardEffect;
+    }
+
+    /**
+     * Setter for <code>public.graph_sync_error_log.source_card_effect</code>.
+     */
+    public GraphSyncErrorLog setSourceCardEffect(@Nullable String sourceCardEffect) {
+        this.sourceCardEffect = sourceCardEffect;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.target_card_effect</code>.
+     */
+    @Nullable
+    public String getTargetCardEffect() {
+        return this.targetCardEffect;
+    }
+
+    /**
+     * Setter for <code>public.graph_sync_error_log.target_card_effect</code>.
+     */
+    public GraphSyncErrorLog setTargetCardEffect(@Nullable String targetCardEffect) {
+        this.targetCardEffect = targetCardEffect;
         return this;
     }
 
@@ -333,6 +393,24 @@ public class GraphSyncErrorLog implements Serializable {
         }
         else if (!this.targetCardName.equals(other.targetCardName))
             return false;
+        if (this.graphRelationType == null) {
+            if (other.graphRelationType != null)
+                return false;
+        }
+        else if (!this.graphRelationType.equals(other.graphRelationType))
+            return false;
+        if (this.sourceCardEffect == null) {
+            if (other.sourceCardEffect != null)
+                return false;
+        }
+        else if (!this.sourceCardEffect.equals(other.sourceCardEffect))
+            return false;
+        if (this.targetCardEffect == null) {
+            if (other.targetCardEffect != null)
+                return false;
+        }
+        else if (!this.targetCardEffect.equals(other.targetCardEffect))
+            return false;
         return true;
     }
 
@@ -351,6 +429,9 @@ public class GraphSyncErrorLog implements Serializable {
         result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
         result = prime * result + ((this.targetCardId == null) ? 0 : this.targetCardId.hashCode());
         result = prime * result + ((this.targetCardName == null) ? 0 : this.targetCardName.hashCode());
+        result = prime * result + ((this.graphRelationType == null) ? 0 : this.graphRelationType.hashCode());
+        result = prime * result + ((this.sourceCardEffect == null) ? 0 : this.sourceCardEffect.hashCode());
+        result = prime * result + ((this.targetCardEffect == null) ? 0 : this.targetCardEffect.hashCode());
         return result;
     }
 
@@ -369,6 +450,9 @@ public class GraphSyncErrorLog implements Serializable {
         sb.append(", ").append(status);
         sb.append(", ").append(targetCardId);
         sb.append(", ").append(targetCardName);
+        sb.append(", ").append(graphRelationType);
+        sb.append(", ").append(sourceCardEffect);
+        sb.append(", ").append(targetCardEffect);
 
         sb.append(")");
         return sb.toString();

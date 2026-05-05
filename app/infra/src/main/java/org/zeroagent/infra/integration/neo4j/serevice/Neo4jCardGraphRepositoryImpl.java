@@ -101,11 +101,17 @@ public class Neo4jCardGraphRepositoryImpl implements CardGraphRepository {
                 MATCH (c:Card {passcode: $passcode})
                 MATCH (a:Card {passcode: $searchPasscode})
                 MERGE (c)-[:SEARCH]->(a)
+                RETURN 1 AS ok
                 """;
-        neo4jClient.query(cypher)
+        Integer matched = neo4jClient.query(cypher)
                 .bind(passcode).to("passcode")
                 .bind(searchPasscode).to("searchPasscode")
-                .run();
+                .fetchAs(Integer.class)
+                .one()
+                .orElse(null);
+        if (matched == null) {
+            throw new IllegalStateException("Neo4j未找到可建边节点, sourcePassCode=" + passcode + ", targetPassCode=" + searchPasscode);
+        }
     }
 
     @Override

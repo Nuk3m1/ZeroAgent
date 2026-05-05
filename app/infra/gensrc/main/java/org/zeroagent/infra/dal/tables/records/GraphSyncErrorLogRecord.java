@@ -6,7 +6,7 @@ package org.zeroagent.infra.dal.tables.records;
 
 import jakarta.annotation.Nullable;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import javax.annotation.processing.Generated;
 
@@ -129,7 +129,7 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
     /**
      * Setter for <code>public.graph_sync_error_log.created_at</code>.
      */
-    public GraphSyncErrorLogRecord setCreatedAt(@Nullable OffsetDateTime value) {
+    public GraphSyncErrorLogRecord setCreatedAt(@Nullable ZonedDateTime value) {
         set(6, value);
         return this;
     }
@@ -138,14 +138,14 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
      * Getter for <code>public.graph_sync_error_log.created_at</code>.
      */
     @Nullable
-    public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(6);
+    public ZonedDateTime getCreatedAt() {
+        return (ZonedDateTime) get(6);
     }
 
     /**
      * Setter for <code>public.graph_sync_error_log.updated_at</code>.
      */
-    public GraphSyncErrorLogRecord setUpdatedAt(@Nullable OffsetDateTime value) {
+    public GraphSyncErrorLogRecord setUpdatedAt(@Nullable ZonedDateTime value) {
         set(7, value);
         return this;
     }
@@ -154,8 +154,8 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
      * Getter for <code>public.graph_sync_error_log.updated_at</code>.
      */
     @Nullable
-    public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(7);
+    public ZonedDateTime getUpdatedAt() {
+        return (ZonedDateTime) get(7);
     }
 
     /**
@@ -206,6 +206,54 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
         return (String) get(10);
     }
 
+    /**
+     * Setter for <code>public.graph_sync_error_log.graph_relation_type</code>.
+     */
+    public GraphSyncErrorLogRecord setGraphRelationType(@Nullable String value) {
+        set(11, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.graph_relation_type</code>.
+     */
+    @Nullable
+    public String getGraphRelationType() {
+        return (String) get(11);
+    }
+
+    /**
+     * Setter for <code>public.graph_sync_error_log.source_card_effect</code>.
+     */
+    public GraphSyncErrorLogRecord setSourceCardEffect(@Nullable String value) {
+        set(12, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.source_card_effect</code>.
+     */
+    @Nullable
+    public String getSourceCardEffect() {
+        return (String) get(12);
+    }
+
+    /**
+     * Setter for <code>public.graph_sync_error_log.target_card_effect</code>.
+     */
+    public GraphSyncErrorLogRecord setTargetCardEffect(@Nullable String value) {
+        set(13, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.graph_sync_error_log.target_card_effect</code>.
+     */
+    @Nullable
+    public String getTargetCardEffect() {
+        return (String) get(13);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -229,7 +277,7 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
     /**
      * Create a detached, initialised GraphSyncErrorLogRecord
      */
-    public GraphSyncErrorLogRecord(Long id, Long sourceCardId, String sourceCardName, @Nullable JSONB llmRawResponse, @Nullable String errorType, @Nullable String errorMessage, @Nullable OffsetDateTime createdAt, @Nullable OffsetDateTime updatedAt, @Nullable Short status, @Nullable Long targetCardId, @Nullable String targetCardName) {
+    public GraphSyncErrorLogRecord(Long id, Long sourceCardId, String sourceCardName, @Nullable JSONB llmRawResponse, @Nullable String errorType, @Nullable String errorMessage, @Nullable ZonedDateTime createdAt, @Nullable ZonedDateTime updatedAt, @Nullable Short status, @Nullable Long targetCardId, @Nullable String targetCardName, @Nullable String graphRelationType, @Nullable String sourceCardEffect, @Nullable String targetCardEffect) {
         super(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG);
 
         setId(id);
@@ -243,6 +291,9 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
         setStatus(status);
         setTargetCardId(targetCardId);
         setTargetCardName(targetCardName);
+        setGraphRelationType(graphRelationType);
+        setSourceCardEffect(sourceCardEffect);
+        setTargetCardEffect(targetCardEffect);
         resetChangedOnNotNull();
     }
 
@@ -264,6 +315,9 @@ public class GraphSyncErrorLogRecord extends UpdatableRecordImpl<GraphSyncErrorL
             setStatus(value.getStatus());
             setTargetCardId(value.getTargetCardId());
             setTargetCardName(value.getTargetCardName());
+            setGraphRelationType(value.getGraphRelationType());
+            setSourceCardEffect(value.getSourceCardEffect());
+            setTargetCardEffect(value.getTargetCardEffect());
             resetChangedOnNotNull();
         }
     }

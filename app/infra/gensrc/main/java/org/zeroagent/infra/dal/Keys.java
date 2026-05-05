@@ -10,10 +10,12 @@ import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
+import org.zeroagent.infra.dal.tables.AiTaskCreation;
 import org.zeroagent.infra.dal.tables.CardInformationCreation;
 import org.zeroagent.infra.dal.tables.ConversationCreation;
 import org.zeroagent.infra.dal.tables.ConversationMessageCreation;
 import org.zeroagent.infra.dal.tables.GraphSyncErrorLog;
+import org.zeroagent.infra.dal.tables.records.AiTaskCreationRecord;
 import org.zeroagent.infra.dal.tables.records.CardInformationCreationRecord;
 import org.zeroagent.infra.dal.tables.records.ConversationCreationRecord;
 import org.zeroagent.infra.dal.tables.records.ConversationMessageCreationRecord;
@@ -38,6 +40,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<AiTaskCreationRecord> AI_TASK_CREATION_PKEY = Internal.createUniqueKey(AiTaskCreation.AI_TASK_CREATION, DSL.name("ai_task_creation_pkey"), new TableField[] { AiTaskCreation.AI_TASK_CREATION.ID }, true);
     public static final UniqueKey<CardInformationCreationRecord> CARD_INFORMATION_CREATION_PASSCODE_KEY = Internal.createUniqueKey(CardInformationCreation.CARD_INFORMATION_CREATION, DSL.name("card_information_creation_passcode_key"), new TableField[] { CardInformationCreation.CARD_INFORMATION_CREATION.PASSCODE }, true);
     public static final UniqueKey<CardInformationCreationRecord> CARD_INFORMATION_CREATION_PKEY = Internal.createUniqueKey(CardInformationCreation.CARD_INFORMATION_CREATION, DSL.name("card_information_creation_pkey"), new TableField[] { CardInformationCreation.CARD_INFORMATION_CREATION.ID }, true);
     public static final UniqueKey<ConversationCreationRecord> CONVERSATION_CREATION_PKEY = Internal.createUniqueKey(ConversationCreation.CONVERSATION_CREATION, DSL.name("conversation_creation_pkey"), new TableField[] { ConversationCreation.CONVERSATION_CREATION.ID }, true);

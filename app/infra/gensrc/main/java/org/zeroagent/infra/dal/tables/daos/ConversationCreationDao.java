@@ -7,12 +7,14 @@ package org.zeroagent.infra.dal.tables.daos;
 import jakarta.annotation.Nullable;
 
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
+import org.jooq.Converter;
 import org.jooq.impl.DAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -88,14 +90,14 @@ public class ConversationCreationDao extends DAOImpl<ConversationCreationRecord,
      * Fetch records that have <code>created_at BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.ConversationCreation> fetchRangeOfCreatedAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+    public List<org.zeroagent.infra.dal.tables.pojos.ConversationCreation> fetchRangeOfCreatedAt(ZonedDateTime lowerInclusive, ZonedDateTime upperInclusive) {
         return fetchRange(ConversationCreation.CONVERSATION_CREATION.CREATED_AT, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>created_at IN (values)</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.ConversationCreation> fetchByCreatedAt(OffsetDateTime... values) {
+    public List<org.zeroagent.infra.dal.tables.pojos.ConversationCreation> fetchByCreatedAt(ZonedDateTime... values) {
         return fetch(ConversationCreation.CONVERSATION_CREATION.CREATED_AT, values);
     }
 
@@ -103,14 +105,14 @@ public class ConversationCreationDao extends DAOImpl<ConversationCreationRecord,
      * Fetch records that have <code>updated_at BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.ConversationCreation> fetchRangeOfUpdatedAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+    public List<org.zeroagent.infra.dal.tables.pojos.ConversationCreation> fetchRangeOfUpdatedAt(ZonedDateTime lowerInclusive, ZonedDateTime upperInclusive) {
         return fetchRange(ConversationCreation.CONVERSATION_CREATION.UPDATED_AT, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>updated_at IN (values)</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.ConversationCreation> fetchByUpdatedAt(OffsetDateTime... values) {
+    public List<org.zeroagent.infra.dal.tables.pojos.ConversationCreation> fetchByUpdatedAt(ZonedDateTime... values) {
         return fetch(ConversationCreation.CONVERSATION_CREATION.UPDATED_AT, values);
     }
 

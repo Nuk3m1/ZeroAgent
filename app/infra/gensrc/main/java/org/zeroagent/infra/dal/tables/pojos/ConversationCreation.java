@@ -7,7 +7,7 @@ package org.zeroagent.infra.dal.tables.pojos;
 import jakarta.annotation.Nullable;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import javax.annotation.processing.Generated;
 
@@ -28,8 +28,8 @@ public class ConversationCreation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private OffsetDateTime createdAt;
-    private OffsetDateTime updatedAt;
+    private ZonedDateTime createdAt;
+    private ZonedDateTime updatedAt;
     private Long uid;
     private String title;
 
@@ -45,8 +45,8 @@ public class ConversationCreation implements Serializable {
 
     public ConversationCreation(
         @Nullable Long id,
-        @Nullable OffsetDateTime createdAt,
-        @Nullable OffsetDateTime updatedAt,
+        @Nullable ZonedDateTime createdAt,
+        @Nullable ZonedDateTime updatedAt,
         @Nullable Long uid,
         @Nullable String title
     ) {
@@ -77,14 +77,14 @@ public class ConversationCreation implements Serializable {
      * Getter for <code>public.conversation_creation.created_at</code>.
      */
     @Nullable
-    public OffsetDateTime getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return this.createdAt;
     }
 
     /**
      * Setter for <code>public.conversation_creation.created_at</code>.
      */
-    public ConversationCreation setCreatedAt(@Nullable OffsetDateTime createdAt) {
+    public ConversationCreation setCreatedAt(@Nullable ZonedDateTime createdAt) {
         this.createdAt = createdAt;
         return this;
     }
@@ -93,14 +93,14 @@ public class ConversationCreation implements Serializable {
      * Getter for <code>public.conversation_creation.updated_at</code>.
      */
     @Nullable
-    public OffsetDateTime getUpdatedAt() {
+    public ZonedDateTime getUpdatedAt() {
         return this.updatedAt;
     }
 
     /**
      * Setter for <code>public.conversation_creation.updated_at</code>.
      */
-    public ConversationCreation setUpdatedAt(@Nullable OffsetDateTime updatedAt) {
+    public ConversationCreation setUpdatedAt(@Nullable ZonedDateTime updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }

@@ -6,6 +6,7 @@ package org.zeroagent.infra.dal;
 
 import javax.annotation.processing.Generated;
 
+import org.zeroagent.infra.dal.tables.AiTaskCreation;
 import org.zeroagent.infra.dal.tables.CardInformationCreation;
 import org.zeroagent.infra.dal.tables.ConversationCreation;
 import org.zeroagent.infra.dal.tables.ConversationMessageCreation;
@@ -24,6 +25,11 @@ import org.zeroagent.infra.dal.tables.GraphSyncErrorLog;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class Tables {
+
+    /**
+     * The table <code>public.ai_task_creation</code>.
+     */
+    public static final AiTaskCreation AI_TASK_CREATION = AiTaskCreation.AI_TASK_CREATION;
 
     /**
      * OCG卡牌基础信息表

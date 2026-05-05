@@ -7,6 +7,7 @@ package org.zeroagent.infra.dal.tables;
 import jakarta.annotation.Nullable;
 
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 import javax.annotation.processing.Generated;
 
 import org.jooq.Condition;
+import org.jooq.Converter;
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Index;
@@ -75,12 +77,12 @@ public class ConversationMessageCreation extends TableImpl<ConversationMessageCr
     /**
      * The column <code>public.conversation_message_creation.created_at</code>.
      */
-    public final TableField<ConversationMessageCreationRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
+    public final TableField<ConversationMessageCreationRecord, ZonedDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "", Converter.ofNullable(OffsetDateTime.class, ZonedDateTime.class, java.time.ZonedDateTime::from, java.time.ZonedDateTime::toOffsetDateTime));
 
     /**
      * The column <code>public.conversation_message_creation.updated_at</code>.
      */
-    public final TableField<ConversationMessageCreationRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
+    public final TableField<ConversationMessageCreationRecord, ZonedDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "", Converter.ofNullable(OffsetDateTime.class, ZonedDateTime.class, java.time.ZonedDateTime::from, java.time.ZonedDateTime::toOffsetDateTime));
 
     /**
      * The column <code>public.conversation_message_creation.uid</code>.

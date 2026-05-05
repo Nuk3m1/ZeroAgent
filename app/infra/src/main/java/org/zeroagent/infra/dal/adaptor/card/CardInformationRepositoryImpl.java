@@ -95,7 +95,7 @@ public class CardInformationRepositoryImpl implements CardInformationRepository 
     public List<CardInformation> fetchBatchByStatus(int limit, CardInformationStatusEnum status) {
         return dsl.selectFrom(CARD_INFORMATION_CREATION)
                 .where(CARD_INFORMATION_CREATION.GRAPH_SYNC_STATUS.eq((short) status.getStatus()))
-                .orderBy(CARD_INFORMATION_CREATION.ID.asc())
+                .orderBy(CARD_INFORMATION_CREATION.ID.desc())
                 .limit(limit)
                 .forUpdate()
                 .skipLocked()
@@ -135,36 +135,57 @@ public class CardInformationRepositoryImpl implements CardInformationRepository 
     public List<CardInformation> fetchBatchByCondition(CardInformationQO cardInformationQO) {
         Assert.notNull(cardInformationQO, "cardInformationQO must not be null");
         Condition condition = noCondition();
+        boolean hasConstraint = false;
         try {
-            if (cardInformationQO.getRace() != null && !cardInformationQO.getRace().isEmpty()) {
+            if (StringUtils.hasText(cardInformationQO.getRace())) {
                 condition = condition.and(CARD_INFORMATION_CREATION.RACE.eq(cardInformationQO.getRace()));
+                hasConstraint = true;
             }
-            if (cardInformationQO.getAttribute() != null && !cardInformationQO.getAttribute().isEmpty()) {
+            if (StringUtils.hasText(cardInformationQO.getAttribute())) {
                 condition = condition.and(CARD_INFORMATION_CREATION.ATTRIBUTION.eq(cardInformationQO.getAttribute()));
+                hasConstraint = true;
             }
-            if (cardInformationQO.getMainType() != null && !cardInformationQO.getMainType().isEmpty()) {
+            if (StringUtils.hasText(cardInformationQO.getMainType())) {
                 condition = condition.and(CARD_INFORMATION_CREATION.CARD_TYPE.eq(cardInformationQO.getMainType()));
+                hasConstraint = true;
             }
 
             // 处理字段，直接从卡名进行模糊匹配
-            if (cardInformationQO.getArchetypes() != null && !cardInformationQO.getArchetypes().isEmpty()) {
+            if (hasTextElement(cardInformationQO.getArchetypes())) {
                 Condition archeTypeCondition = cardInformationQO.getArchetypes().stream()
-                        .map(archetype -> (Condition) CARD_INFORMATION_CREATION.NAME.like("%" + archetype + "%"))
+                        .filter(StringUtils::hasText)
+                        .map(String::trim)
+                        .map(archetype -> (Condition) CARD_INFORMATION_CREATION.NAME.like("%" + escapeLikePattern(archetype) + "%", '\\'))
                         .reduce(Condition::or)
                         .orElse(DSL.noCondition());
                 condition = condition.and(archeTypeCondition);
+                hasConstraint = true;
             }
             // 处理jsonb数组的包含关系 (@>)
             if (cardInformationQO.getSubTypes() != null && !cardInformationQO.getSubTypes().isEmpty()) {
                 String subTypesJson = objectMapper.writeValueAsString(cardInformationQO.getSubTypes());
                 condition = condition.and(DSL.condition("{0} @> {1}::jsonb", CARD_INFORMATION_CREATION.CARD_SUBTYPE, DSL.val(subTypesJson)));
+                hasConstraint = true;
             }
             // 星级为 Short 类型，进行特殊处理
             Short levelValue = cardInformationQO.getLevel() != null ? cardInformationQO.getLevel().shortValue() : null;
             // 添加 星级 攻击力 防御力 的筛选条件
+            if (isValidNumericConstraint(cardInformationQO.getLevelOperator(), levelValue)) {
+                hasConstraint = true;
+            }
             condition = appendNumericCondition(condition, CARD_INFORMATION_CREATION.MONSTER_LEVEL, cardInformationQO.getLevelOperator(), levelValue);
+            if (isValidNumericConstraint(cardInformationQO.getAtkOperator(), cardInformationQO.getAtk())) {
+                hasConstraint = true;
+            }
             condition = appendNumericCondition(condition, CARD_INFORMATION_CREATION.ATK, cardInformationQO.getAtkOperator(), cardInformationQO.getAtk());
+            if (isValidNumericConstraint(cardInformationQO.getDefOperator(), cardInformationQO.getDef())) {
+                hasConstraint = true;
+            }
             condition = appendNumericCondition(condition, CARD_INFORMATION_CREATION.DEF, cardInformationQO.getDefOperator(), cardInformationQO.getDef());
+            if (!hasConstraint) {
+                log.info("卡牌关系提取条件为空，跳过查询。入参: {}", cardInformationQO);
+                return List.of();
+            }
 
             return dsl.selectFrom(CARD_INFORMATION_CREATION)
                     .where(condition)
@@ -181,6 +202,23 @@ public class CardInformationRepositoryImpl implements CardInformationRepository 
 
     }
 
+
+    private boolean hasTextElement(List<String> values) {
+        if (values == null || values.isEmpty()) {
+            return false;
+        }
+        return values.stream().anyMatch(StringUtils::hasText);
+    }
+
+    private boolean isValidNumericConstraint(String operator, Number value) {
+        return value != null && StringUtils.hasText(operator);
+    }
+
+    private String escapeLikePattern(String raw) {
+        return raw.replace("\\", "\\\\")
+                .replace("%", "\\%")
+                .replace("_", "\\_");
+    }
 
 
     private <T extends Number> Condition appendNumericCondition(Condition currentCondition,

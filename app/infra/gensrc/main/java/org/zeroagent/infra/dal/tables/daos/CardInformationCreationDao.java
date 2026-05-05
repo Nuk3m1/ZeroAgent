@@ -7,12 +7,14 @@ package org.zeroagent.infra.dal.tables.daos;
 import jakarta.annotation.Nullable;
 
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
+import org.jooq.Converter;
 import org.jooq.JSONB;
 import org.jooq.impl.DAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -314,14 +316,14 @@ public class CardInformationCreationDao extends DAOImpl<CardInformationCreationR
      * Fetch records that have <code>created_at BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.CardInformationCreation> fetchRangeOfCreatedAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+    public List<org.zeroagent.infra.dal.tables.pojos.CardInformationCreation> fetchRangeOfCreatedAt(ZonedDateTime lowerInclusive, ZonedDateTime upperInclusive) {
         return fetchRange(CardInformationCreation.CARD_INFORMATION_CREATION.CREATED_AT, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>created_at IN (values)</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.CardInformationCreation> fetchByCreatedAt(OffsetDateTime... values) {
+    public List<org.zeroagent.infra.dal.tables.pojos.CardInformationCreation> fetchByCreatedAt(ZonedDateTime... values) {
         return fetch(CardInformationCreation.CARD_INFORMATION_CREATION.CREATED_AT, values);
     }
 
@@ -329,14 +331,14 @@ public class CardInformationCreationDao extends DAOImpl<CardInformationCreationR
      * Fetch records that have <code>updated_at BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.CardInformationCreation> fetchRangeOfUpdatedAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+    public List<org.zeroagent.infra.dal.tables.pojos.CardInformationCreation> fetchRangeOfUpdatedAt(ZonedDateTime lowerInclusive, ZonedDateTime upperInclusive) {
         return fetchRange(CardInformationCreation.CARD_INFORMATION_CREATION.UPDATED_AT, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>updated_at IN (values)</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.CardInformationCreation> fetchByUpdatedAt(OffsetDateTime... values) {
+    public List<org.zeroagent.infra.dal.tables.pojos.CardInformationCreation> fetchByUpdatedAt(ZonedDateTime... values) {
         return fetch(CardInformationCreation.CARD_INFORMATION_CREATION.UPDATED_AT, values);
     }
 

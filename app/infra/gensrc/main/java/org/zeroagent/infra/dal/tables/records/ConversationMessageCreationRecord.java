@@ -6,7 +6,7 @@ package org.zeroagent.infra.dal.tables.records;
 
 import jakarta.annotation.Nullable;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import javax.annotation.processing.Generated;
 
@@ -50,7 +50,7 @@ public class ConversationMessageCreationRecord extends UpdatableRecordImpl<Conve
     /**
      * Setter for <code>public.conversation_message_creation.created_at</code>.
      */
-    public ConversationMessageCreationRecord setCreatedAt(@Nullable OffsetDateTime value) {
+    public ConversationMessageCreationRecord setCreatedAt(@Nullable ZonedDateTime value) {
         set(1, value);
         return this;
     }
@@ -59,14 +59,14 @@ public class ConversationMessageCreationRecord extends UpdatableRecordImpl<Conve
      * Getter for <code>public.conversation_message_creation.created_at</code>.
      */
     @Nullable
-    public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(1);
+    public ZonedDateTime getCreatedAt() {
+        return (ZonedDateTime) get(1);
     }
 
     /**
      * Setter for <code>public.conversation_message_creation.updated_at</code>.
      */
-    public ConversationMessageCreationRecord setUpdatedAt(@Nullable OffsetDateTime value) {
+    public ConversationMessageCreationRecord setUpdatedAt(@Nullable ZonedDateTime value) {
         set(2, value);
         return this;
     }
@@ -75,8 +75,8 @@ public class ConversationMessageCreationRecord extends UpdatableRecordImpl<Conve
      * Getter for <code>public.conversation_message_creation.updated_at</code>.
      */
     @Nullable
-    public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(2);
+    public ZonedDateTime getUpdatedAt() {
+        return (ZonedDateTime) get(2);
     }
 
     /**
@@ -186,7 +186,7 @@ public class ConversationMessageCreationRecord extends UpdatableRecordImpl<Conve
     /**
      * Create a detached, initialised ConversationMessageCreationRecord
      */
-    public ConversationMessageCreationRecord(@Nullable Long id, @Nullable OffsetDateTime createdAt, @Nullable OffsetDateTime updatedAt, @Nullable Long uid, @Nullable Long conversationId, @Nullable JSONB role, @Nullable JSONB content, @Nullable String reasoningContent) {
+    public ConversationMessageCreationRecord(@Nullable Long id, @Nullable ZonedDateTime createdAt, @Nullable ZonedDateTime updatedAt, @Nullable Long uid, @Nullable Long conversationId, @Nullable JSONB role, @Nullable JSONB content, @Nullable String reasoningContent) {
         super(ConversationMessageCreation.CONVERSATION_MESSAGE_CREATION);
 
         setId(id);

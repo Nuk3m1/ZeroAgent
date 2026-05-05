@@ -6,7 +6,7 @@ package org.zeroagent.infra.dal.tables.records;
 
 import jakarta.annotation.Nullable;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import javax.annotation.processing.Generated;
 
@@ -283,7 +283,7 @@ public class CardInformationCreationRecord extends UpdatableRecordImpl<CardInfor
     /**
      * Setter for <code>public.card_information_creation.created_at</code>.
      */
-    public CardInformationCreationRecord setCreatedAt(@Nullable OffsetDateTime value) {
+    public CardInformationCreationRecord setCreatedAt(@Nullable ZonedDateTime value) {
         set(15, value);
         return this;
     }
@@ -292,14 +292,14 @@ public class CardInformationCreationRecord extends UpdatableRecordImpl<CardInfor
      * Getter for <code>public.card_information_creation.created_at</code>.
      */
     @Nullable
-    public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(15);
+    public ZonedDateTime getCreatedAt() {
+        return (ZonedDateTime) get(15);
     }
 
     /**
      * Setter for <code>public.card_information_creation.updated_at</code>.
      */
-    public CardInformationCreationRecord setUpdatedAt(@Nullable OffsetDateTime value) {
+    public CardInformationCreationRecord setUpdatedAt(@Nullable ZonedDateTime value) {
         set(16, value);
         return this;
     }
@@ -308,8 +308,8 @@ public class CardInformationCreationRecord extends UpdatableRecordImpl<CardInfor
      * Getter for <code>public.card_information_creation.updated_at</code>.
      */
     @Nullable
-    public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(16);
+    public ZonedDateTime getUpdatedAt() {
+        return (ZonedDateTime) get(16);
     }
 
     /**
@@ -391,7 +391,7 @@ public class CardInformationCreationRecord extends UpdatableRecordImpl<CardInfor
     /**
      * Create a detached, initialised CardInformationCreationRecord
      */
-    public CardInformationCreationRecord(Long id, @Nullable String passcode, String name, @Nullable String attribution, @Nullable String race, @Nullable Integer atk, @Nullable Integer def, String cardType, @Nullable JSONB cardSubtype, @Nullable Short monsterLevel, @Nullable Short monsterRank, @Nullable Short linkRating, @Nullable Short pendulumScale, @Nullable String pendulumEffect, @Nullable String effect, @Nullable OffsetDateTime createdAt, @Nullable OffsetDateTime updatedAt, @Nullable Short graphSyncStatus, @Nullable JSONB bizResponse, @Nullable JSONB archetype) {
+    public CardInformationCreationRecord(Long id, @Nullable String passcode, String name, @Nullable String attribution, @Nullable String race, @Nullable Integer atk, @Nullable Integer def, String cardType, @Nullable JSONB cardSubtype, @Nullable Short monsterLevel, @Nullable Short monsterRank, @Nullable Short linkRating, @Nullable Short pendulumScale, @Nullable String pendulumEffect, @Nullable String effect, @Nullable ZonedDateTime createdAt, @Nullable ZonedDateTime updatedAt, @Nullable Short graphSyncStatus, @Nullable JSONB bizResponse, @Nullable JSONB archetype) {
         super(CardInformationCreation.CARD_INFORMATION_CREATION);
 
         setId(id);

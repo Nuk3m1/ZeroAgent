@@ -26,8 +26,8 @@ import org.zeroagent.domain.core.ai.chat.service.ConversationMessageRepository;
 import org.zeroagent.domain.core.ai.chat.service.ConversationRepository;
 import org.zeroagent.domain.core.ai.chat.toolcalling.ToolCallingEnum;
 import org.zeroagent.domain.core.ai.chat.toolcalling.ToolCallingFactory;
-import org.zeroagent.domain.core.ai.chat.toolcalling.ToolCallingService;
 import org.zeroagent.domain.core.utils.TextUtil;
+import org.zeroagent.infra.core.ai.toolcalling.ToolCallingExecutionTemplate;
 import org.zeroagent.infra.integration.WebClientFactory;
 import org.zeroagent.infra.integration.llm.doubao.DouBaoChatProperties;
 import org.zeroagent.infra.core.ai.model.DouBaoChatRequest;
@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AiChatServiceImpl implements AiChatService {
     private final TransactionTemplate               transactionTemplate;
-    private final ToolCallingService                toolCallingService;
+    private final ToolCallingExecutionTemplate      toolCallingExecutionTemplate;
     private final ConversationMessageRepository     conversationMessageRepository;
     private final ConversationRepository            conversationRepository;
     private final WebClientFactory                  webClientFactory;
@@ -167,9 +167,9 @@ public class AiChatServiceImpl implements AiChatService {
                 });
         return LlmStream.concatWith(Flux.defer(()-> {
             // 发现需要工具调用
-            if (!intentMap.isEmpty()) {
-                List<ToolCallingIntent> intents = new ArrayList<>(intentMap.values());
-                List<ToolCallingBizResult> results = toolCallingService.executeToolCalling(intents);
+                if (!intentMap.isEmpty()) {
+                    List<ToolCallingIntent> intents = new ArrayList<>(intentMap.values());
+                    List<ToolCallingBizResult> results = toolCallingExecutionTemplate.executeToolCalling(intents);
                 // 更新上下文 （工具调用结果）
                 AssistantMessage assistantMessage = new AssistantMessage(MediaType.TEXT, "");
                 assistantMessage.getMetadata().put("tool_calls", ToolCallingIntent.formatIntentsForLlm(intents));

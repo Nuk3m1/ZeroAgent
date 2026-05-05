@@ -12,6 +12,7 @@ import javax.annotation.processing.Generated;
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
+import org.zeroagent.infra.dal.tables.AiTaskCreation;
 import org.zeroagent.infra.dal.tables.CardInformationCreation;
 import org.zeroagent.infra.dal.tables.ConversationCreation;
 import org.zeroagent.infra.dal.tables.ConversationMessageCreation;
@@ -37,6 +38,11 @@ public class Public extends SchemaImpl {
      * The reference instance of <code>public</code>
      */
     public static final Public PUBLIC = new Public();
+
+    /**
+     * The table <code>public.ai_task_creation</code>.
+     */
+    public final AiTaskCreation AI_TASK_CREATION = AiTaskCreation.AI_TASK_CREATION;
 
     /**
      * OCG卡牌基础信息表
@@ -74,6 +80,7 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            AiTaskCreation.AI_TASK_CREATION,
             CardInformationCreation.CARD_INFORMATION_CREATION,
             ConversationCreation.CONVERSATION_CREATION,
             ConversationMessageCreation.CONVERSATION_MESSAGE_CREATION,

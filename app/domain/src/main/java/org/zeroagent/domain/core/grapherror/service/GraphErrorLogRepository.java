@@ -1,6 +1,7 @@
 package org.zeroagent.domain.core.grapherror.service;
 
 import org.zeroagent.domain.core.grapherror.model.GraphErrorLog;
+import org.zeroagent.domain.core.grapherror.model.GraphErrorLogStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,4 +16,6 @@ public interface GraphErrorLogRepository {
     void update(GraphErrorLog graphErrorLog);
     Optional<GraphErrorLog> findById(long id);
     void batchInsert(List<GraphErrorLog> graphErrorLogs);
+    List<GraphErrorLog> fetchBatchByStatus(int limit, GraphErrorLogStatus status);
+    void updateStatusById(long id, GraphErrorLogStatus status);
 }

@@ -18,4 +18,16 @@ public class AsyncPools {
      * 执行卡牌节点创建的线程池
      */
     public static final String CARD_SCHEDULER_EXECUTE_POOL                 = "CARD_SCHEDULER_EXECUTE_POOL";
+    /**
+     * 语义关系抽取执行线程池
+     */
+    public static final String SEMANTIC_EXTRACT_EXECUTE_POOL               = "SEMANTIC_EXTRACT_EXECUTE_POOL";
+    /**
+     * 审批任务执行线程池
+     */
+    public static final String GRAPH_APPROVAL_EXECUTE_POOL                 = "GRAPH_APPROVAL_EXECUTE_POOL";
+    /**
+     * AiTask执行线程池
+     */
+    public static final String AI_TASK_EXECUTE_POOL                         = "AI_TASK_EXECUTE_POOL";
 }

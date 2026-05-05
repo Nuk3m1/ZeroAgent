@@ -7,12 +7,14 @@ package org.zeroagent.infra.dal.tables.daos;
 import jakarta.annotation.Nullable;
 
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.processing.Generated;
 
 import org.jooq.Configuration;
+import org.jooq.Converter;
 import org.jooq.JSONB;
 import org.jooq.impl.DAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,14 +166,14 @@ public class GraphSyncErrorLogDao extends DAOImpl<GraphSyncErrorLogRecord, org.z
      * Fetch records that have <code>created_at BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchRangeOfCreatedAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchRangeOfCreatedAt(ZonedDateTime lowerInclusive, ZonedDateTime upperInclusive) {
         return fetchRange(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.CREATED_AT, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>created_at IN (values)</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByCreatedAt(OffsetDateTime... values) {
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByCreatedAt(ZonedDateTime... values) {
         return fetch(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.CREATED_AT, values);
     }
 
@@ -179,14 +181,14 @@ public class GraphSyncErrorLogDao extends DAOImpl<GraphSyncErrorLogRecord, org.z
      * Fetch records that have <code>updated_at BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchRangeOfUpdatedAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchRangeOfUpdatedAt(ZonedDateTime lowerInclusive, ZonedDateTime upperInclusive) {
         return fetchRange(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.UPDATED_AT, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>updated_at IN (values)</code>
      */
-    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByUpdatedAt(OffsetDateTime... values) {
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByUpdatedAt(ZonedDateTime... values) {
         return fetch(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.UPDATED_AT, values);
     }
 
@@ -233,5 +235,50 @@ public class GraphSyncErrorLogDao extends DAOImpl<GraphSyncErrorLogRecord, org.z
      */
     public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByTargetCardName(String... values) {
         return fetch(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.TARGET_CARD_NAME, values);
+    }
+
+    /**
+     * Fetch records that have <code>graph_relation_type BETWEEN lowerInclusive
+     * AND upperInclusive</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchRangeOfGraphRelationType(String lowerInclusive, String upperInclusive) {
+        return fetchRange(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.GRAPH_RELATION_TYPE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>graph_relation_type IN (values)</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByGraphRelationType(String... values) {
+        return fetch(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.GRAPH_RELATION_TYPE, values);
+    }
+
+    /**
+     * Fetch records that have <code>source_card_effect BETWEEN lowerInclusive
+     * AND upperInclusive</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchRangeOfSourceCardEffect(String lowerInclusive, String upperInclusive) {
+        return fetchRange(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.SOURCE_CARD_EFFECT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>source_card_effect IN (values)</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchBySourceCardEffect(String... values) {
+        return fetch(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.SOURCE_CARD_EFFECT, values);
+    }
+
+    /**
+     * Fetch records that have <code>target_card_effect BETWEEN lowerInclusive
+     * AND upperInclusive</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchRangeOfTargetCardEffect(String lowerInclusive, String upperInclusive) {
+        return fetchRange(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.TARGET_CARD_EFFECT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>target_card_effect IN (values)</code>
+     */
+    public List<org.zeroagent.infra.dal.tables.pojos.GraphSyncErrorLog> fetchByTargetCardEffect(String... values) {
+        return fetch(GraphSyncErrorLog.GRAPH_SYNC_ERROR_LOG.TARGET_CARD_EFFECT, values);
     }
 }

@@ -17,8 +17,6 @@ public class CardInformationQO {
      * 字段
      */
     private List<String> archetypes;
-
-
     /**
      * 主类型
      */

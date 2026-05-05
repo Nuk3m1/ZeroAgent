@@ -70,5 +70,6 @@ public interface GraphErrorLogPojoMapper extends ModelMapper<GraphErrorLog, Grap
         builder.updatable(GRAPH_SYNC_ERROR_LOG.LLM_RAW_RESPONSE);
         builder.updatable(GRAPH_SYNC_ERROR_LOG.TARGET_CARD_ID);
         builder.updatable(GRAPH_SYNC_ERROR_LOG.TARGET_CARD_NAME);
+        builder.updatable(GRAPH_SYNC_ERROR_LOG.GRAPH_RELATION_TYPE);
     }
 }

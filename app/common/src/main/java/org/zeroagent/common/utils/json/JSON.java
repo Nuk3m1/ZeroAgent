@@ -22,9 +22,6 @@ import static org.apache.commons.collections4.MapUtils.isEmpty;
 
 /**
  * JSON常用操作工具类
- *
- * @author joton
- * @version JSON.java, v 0.1 2023-01-07 14:41 joton
  */
 @UtilityClass
 public class JSON {

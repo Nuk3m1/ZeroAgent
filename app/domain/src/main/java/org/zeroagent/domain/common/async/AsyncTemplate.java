@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -15,8 +16,10 @@ import org.zeroagent.common.problem.exception.SysException;
 import org.zeroagent.common.utils.Asserts;
 import org.zeroagent.domain.support.notification.app.AppSyncAlertHelper;
 
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 异步函数执行模版 (线程池在这里集中定义为SpringBean)
@@ -57,6 +60,17 @@ public class AsyncTemplate {
         } catch (Exception ignore) {
             // 静默，不做任何处理
         }
+    }
+
+    /**
+     * 检查线程池阻塞队列是否有可用容量
+     * @param threadPoolName 线程池名称
+     * @return 是否拥有可用容量
+     */
+    public boolean checkExecutorQueueCapacity(@NotNull String threadPoolName) {
+        ThreadPoolTaskExecutor executor = (ThreadPoolTaskExecutor) this.getTaskExecutor(threadPoolName);
+        BlockingQueue<Runnable> queue = executor.getThreadPoolExecutor().getQueue();
+        return queue.remainingCapacity() > 0;
     }
 
     public void execute(@NotNull String threadPoolName, @NotNull Runnable command) {

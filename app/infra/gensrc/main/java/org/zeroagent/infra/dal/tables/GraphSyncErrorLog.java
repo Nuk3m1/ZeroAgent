@@ -7,11 +7,13 @@ package org.zeroagent.infra.dal.tables;
 import jakarta.annotation.Nullable;
 
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 
 import javax.annotation.processing.Generated;
 
 import org.jooq.Condition;
+import org.jooq.Converter;
 import org.jooq.Field;
 import org.jooq.JSONB;
 import org.jooq.Name;
@@ -95,12 +97,12 @@ public class GraphSyncErrorLog extends TableImpl<GraphSyncErrorLogRecord> {
     /**
      * The column <code>public.graph_sync_error_log.created_at</code>.
      */
-    public final TableField<GraphSyncErrorLogRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
+    public final TableField<GraphSyncErrorLogRecord, ZonedDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "", Converter.ofNullable(OffsetDateTime.class, ZonedDateTime.class, java.time.ZonedDateTime::from, java.time.ZonedDateTime::toOffsetDateTime));
 
     /**
      * The column <code>public.graph_sync_error_log.updated_at</code>.
      */
-    public final TableField<GraphSyncErrorLogRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "");
+    public final TableField<GraphSyncErrorLogRecord, ZonedDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.TIMESTAMPWITHTIMEZONE)), this, "", Converter.ofNullable(OffsetDateTime.class, ZonedDateTime.class, java.time.ZonedDateTime::from, java.time.ZonedDateTime::toOffsetDateTime));
 
     /**
      * The column <code>public.graph_sync_error_log.status</code>.
@@ -116,6 +118,21 @@ public class GraphSyncErrorLog extends TableImpl<GraphSyncErrorLogRecord> {
      * The column <code>public.graph_sync_error_log.target_card_name</code>.
      */
     public final TableField<GraphSyncErrorLogRecord, String> TARGET_CARD_NAME = createField(DSL.name("target_card_name"), SQLDataType.VARCHAR(256), this, "");
+
+    /**
+     * The column <code>public.graph_sync_error_log.graph_relation_type</code>.
+     */
+    public final TableField<GraphSyncErrorLogRecord, String> GRAPH_RELATION_TYPE = createField(DSL.name("graph_relation_type"), SQLDataType.VARCHAR(64), this, "");
+
+    /**
+     * The column <code>public.graph_sync_error_log.source_card_effect</code>.
+     */
+    public final TableField<GraphSyncErrorLogRecord, String> SOURCE_CARD_EFFECT = createField(DSL.name("source_card_effect"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>public.graph_sync_error_log.target_card_effect</code>.
+     */
+    public final TableField<GraphSyncErrorLogRecord, String> TARGET_CARD_EFFECT = createField(DSL.name("target_card_effect"), SQLDataType.CLOB, this, "");
 
     private GraphSyncErrorLog(Name alias, Table<GraphSyncErrorLogRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);

@@ -73,6 +73,64 @@ public class AsyncConfiguration {
         return new TraceAwareThreadPoolTaskExecutor(executor, tracer);
     }
 
+    @Bean(name = AsyncPools.SEMANTIC_EXTRACT_EXECUTE_POOL)
+    public ThreadPoolTaskExecutor semanticExtractExecutePool() {
+        ThreadPoolTaskExecutorCustomizer customizer = taskExecutorHelper.rejectedHandlerCustomizer(AsyncPools.SEMANTIC_EXTRACT_EXECUTE_POOL);
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutorBuilder()
+                .queueCapacity(32)
+                .corePoolSize(16)
+                .maxPoolSize(16)
+                .allowCoreThreadTimeOut(true)
+                .keepAlive(Duration.ofSeconds(60))
+                .awaitTermination(true)
+                .awaitTerminationPeriod(Duration.ofSeconds(30))
+                .threadNamePrefix("semantic-extract-execute-")
+                .customizers(customizer)
+                .build();
+        executor.afterPropertiesSet();
+        executors.add(executor);
+        return new TraceAwareThreadPoolTaskExecutor(executor, tracer);
+    }
+
+    @Bean(name = AsyncPools.GRAPH_APPROVAL_EXECUTE_POOL)
+    public ThreadPoolTaskExecutor graphApprovalExecutePool() {
+        ThreadPoolTaskExecutorCustomizer customizer = taskExecutorHelper.rejectedHandlerCustomizer(AsyncPools.GRAPH_APPROVAL_EXECUTE_POOL);
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutorBuilder()
+                .queueCapacity(32)
+                .corePoolSize(16)
+                .maxPoolSize(16)
+                .allowCoreThreadTimeOut(true)
+                .keepAlive(Duration.ofSeconds(60))
+                .awaitTermination(true)
+                .awaitTerminationPeriod(Duration.ofSeconds(30))
+                .threadNamePrefix("graph-approval-execute-")
+                .customizers(customizer)
+                .build();
+        executor.afterPropertiesSet();
+        executors.add(executor);
+        return new TraceAwareThreadPoolTaskExecutor(executor, tracer);
+    }
+
+    @Bean(name = AsyncPools.AI_TASK_EXECUTE_POOL)
+    public ThreadPoolTaskExecutor aiTaskExecutePool() {
+        ThreadPoolTaskExecutorCustomizer customizer = taskExecutorHelper.rejectedHandlerCustomizer(AsyncPools.AI_TASK_EXECUTE_POOL);
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutorBuilder()
+                .queueCapacity(32)
+                .corePoolSize(16)
+                .maxPoolSize(16)
+                .allowCoreThreadTimeOut(true)
+                .keepAlive(Duration.ofSeconds(60))
+                .awaitTermination(true)
+                .awaitTerminationPeriod(Duration.ofSeconds(30))
+                .threadNamePrefix("ai-task-execute-")
+                .customizers(customizer)
+                .build();
+        executor.afterPropertiesSet();
+        executors.add(executor);
+        return new TraceAwareThreadPoolTaskExecutor(executor, tracer);
+
+    }
+
 
 
 

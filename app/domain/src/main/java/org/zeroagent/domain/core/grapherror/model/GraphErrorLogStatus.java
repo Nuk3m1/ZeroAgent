@@ -9,8 +9,8 @@ import lombok.Getter;
  */
 @Getter
 public enum GraphErrorLogStatus {
-    CREATED("待审核", 1),
-    WAITING("待调度", 2),
+    CREATED("待调度", 1),
+    WAITING("待审核", 2),
     SUCCESS("审核完成", 3),
     FAILED("失败", 0)
     ;

@@ -10,6 +10,7 @@ import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
+import org.zeroagent.infra.dal.tables.AiTaskCreation;
 import org.zeroagent.infra.dal.tables.CardInformationCreation;
 import org.zeroagent.infra.dal.tables.ConversationCreation;
 import org.zeroagent.infra.dal.tables.ConversationMessageCreation;
@@ -32,6 +33,11 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index IDX_AI_TASK_CREATION_BIZ = Internal.createIndex(DSL.name("idx_ai_task_creation_biz"), AiTaskCreation.AI_TASK_CREATION, new OrderField[] { AiTaskCreation.AI_TASK_CREATION.BIZ_TYPE, AiTaskCreation.AI_TASK_CREATION.BIZ_NO, AiTaskCreation.AI_TASK_CREATION.SUB_BIZ_NO }, false);
+    public static final Index IDX_AI_TASK_CREATION_CREATED_AT = Internal.createIndex(DSL.name("idx_ai_task_creation_created_at"), AiTaskCreation.AI_TASK_CREATION, new OrderField[] { AiTaskCreation.AI_TASK_CREATION.CREATED_AT.desc() }, false);
+    public static final Index IDX_AI_TASK_CREATION_EXEC_STATUS = Internal.createIndex(DSL.name("idx_ai_task_creation_exec_status"), AiTaskCreation.AI_TASK_CREATION, new OrderField[] { AiTaskCreation.AI_TASK_CREATION.EXEC_STATUS }, false);
+    public static final Index IDX_AI_TASK_CREATION_OWNER_ID = Internal.createIndex(DSL.name("idx_ai_task_creation_owner_id"), AiTaskCreation.AI_TASK_CREATION, new OrderField[] { AiTaskCreation.AI_TASK_CREATION.OWNER_ID }, false);
+    public static final Index IDX_AI_TASK_CREATION_TASK_STATUS = Internal.createIndex(DSL.name("idx_ai_task_creation_task_status"), AiTaskCreation.AI_TASK_CREATION, new OrderField[] { AiTaskCreation.AI_TASK_CREATION.TASK_STATUS }, false);
     public static final Index IDX_CARD_INFO_PASSCODE = Internal.createIndex(DSL.name("idx_card_info_passcode"), CardInformationCreation.CARD_INFORMATION_CREATION, new OrderField[] { CardInformationCreation.CARD_INFORMATION_CREATION.PASSCODE }, false);
     public static final Index IDX_CARD_INFO_SYNC_STATUS = Internal.createIndex(DSL.name("idx_card_info_sync_status"), CardInformationCreation.CARD_INFORMATION_CREATION, new OrderField[] { CardInformationCreation.CARD_INFORMATION_CREATION.GRAPH_SYNC_STATUS }, false);
     public static final Index IDX_CONVERSATION_CREATION_UID = Internal.createIndex(DSL.name("idx_conversation_creation_uid"), ConversationCreation.CONVERSATION_CREATION, new OrderField[] { ConversationCreation.CONVERSATION_CREATION.UID }, false);

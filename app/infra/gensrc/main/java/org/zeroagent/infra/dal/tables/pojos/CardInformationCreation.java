@@ -7,7 +7,7 @@ package org.zeroagent.infra.dal.tables.pojos;
 import jakarta.annotation.Nullable;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import javax.annotation.processing.Generated;
 
@@ -44,8 +44,8 @@ public class CardInformationCreation implements Serializable {
     private Short pendulumScale;
     private String pendulumEffect;
     private String effect;
-    private OffsetDateTime createdAt;
-    private OffsetDateTime updatedAt;
+    private ZonedDateTime createdAt;
+    private ZonedDateTime updatedAt;
     private Short graphSyncStatus;
     private JSONB bizResponse;
     private JSONB archetype;
@@ -91,8 +91,8 @@ public class CardInformationCreation implements Serializable {
         @Nullable Short pendulumScale,
         @Nullable String pendulumEffect,
         @Nullable String effect,
-        @Nullable OffsetDateTime createdAt,
-        @Nullable OffsetDateTime updatedAt,
+        @Nullable ZonedDateTime createdAt,
+        @Nullable ZonedDateTime updatedAt,
         @Nullable Short graphSyncStatus,
         @Nullable JSONB bizResponse,
         @Nullable JSONB archetype
@@ -372,14 +372,14 @@ public class CardInformationCreation implements Serializable {
      * Getter for <code>public.card_information_creation.created_at</code>.
      */
     @Nullable
-    public OffsetDateTime getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return this.createdAt;
     }
 
     /**
      * Setter for <code>public.card_information_creation.created_at</code>.
      */
-    public CardInformationCreation setCreatedAt(@Nullable OffsetDateTime createdAt) {
+    public CardInformationCreation setCreatedAt(@Nullable ZonedDateTime createdAt) {
         this.createdAt = createdAt;
         return this;
     }
@@ -388,14 +388,14 @@ public class CardInformationCreation implements Serializable {
      * Getter for <code>public.card_information_creation.updated_at</code>.
      */
     @Nullable
-    public OffsetDateTime getUpdatedAt() {
+    public ZonedDateTime getUpdatedAt() {
         return this.updatedAt;
     }
 
     /**
      * Setter for <code>public.card_information_creation.updated_at</code>.
      */
-    public CardInformationCreation setUpdatedAt(@Nullable OffsetDateTime updatedAt) {
+    public CardInformationCreation setUpdatedAt(@Nullable ZonedDateTime updatedAt) {
         this.updatedAt = updatedAt;
         return this;
     }

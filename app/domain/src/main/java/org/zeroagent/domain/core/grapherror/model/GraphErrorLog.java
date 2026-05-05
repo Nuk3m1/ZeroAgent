@@ -53,10 +53,22 @@ public class GraphErrorLog {
     /**
      * 目标卡牌卡密
      */
-    private Long                              targetCardId;
+    private Long                                targetCardId;
     /**
      * 目标卡牌名称
      */
     private String                              targetCardName;
+    /**
+     *  抽取的语义关系
+     */
+    private String                              graphRelationType;
+    /**
+     * 源卡牌效果
+     */
+    private String                              sourceCardEffect;
+    /**
+     * 目标卡牌效果
+     */
+    private String                              targetCardEffect;
 
 }

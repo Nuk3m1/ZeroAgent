@@ -32,5 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
-# Ignore local sensitive configuration
+### Ignore local sensitive configuration ###
 **/src/main/resources/application-local.yml
+
+### Ignore MD documents
+/documents

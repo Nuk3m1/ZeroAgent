@@ -1,98 +1,285 @@
-# 🤖 ZeroAgent：企业级游戏王 OCG 智能决策引擎
+# ZeroAgent
 
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen.svg)
-![WebFlux](https://img.shields.io/badge/Spring%20WebFlux-Reactive-blue.svg)
-![Feishu Open API](https://img.shields.io/badge/Feishu-CardKit%202.0-blue.svg)
-![Neo4j](https://img.shields.io/badge/Neo4j-Knowledge%20Graph-048ebd.svg)
-![Doubao LLM](https://img.shields.io/badge/LLM-Doubao%20Pro-purple.svg)
+> 面向游戏王 OCG 场景的 AI Agent 与视觉互动实验项目
 
-**ZeroAgent** 是一款基于 Spring WebFlux 响应式架构驱动，深度整合火山引擎（豆包大模型）与飞书开放平台的垂直领域（游戏王 OCG）AI 智能体助手。
+ZeroAgent 是一个围绕 **游戏王 OCG 专业知识、智能问答、知识图谱、自主任务调度和视觉互动生成** 持续演进的 AI 应用项目。
 
-它不仅是一个聊天机器人，更是一个具备**深度思考（CoT**)、**工具调用（Tool Calling**)与 **知识图谱（GraphRAG)**)检索能力的企业级专家系统。
+它并不满足于做一个“能聊天的大模型壳子”，而是尝试把：
 
-## 🌍 现实背景与业务空缺（Why ZeroAgent?）
+- 大模型的推理能力
+- OCG 卡牌事实库
+- Neo4j 图谱关系
+- 飞书交互终端
+- 图像生成能力
 
-在游戏王 OCG 庞大且复杂的卡牌生态中，玩家面临着极其严重的信息碎片化问题：
-1. **查卡痛点**：全网有上万张卡牌，传统卡查软件只能进行机械的关键词匹配，无法理解“十星同调的深渊神兽”或"同调的斩机终端"这种人类自然语言描述，以及搜索"烙印"却没有"冰剑龙"的情况。
-2. **规则与判例黑盒**：复杂的 K 社裁定（如连锁结算、取对象判定）往往散落在各大论坛，新手难以快速获取准确的判例指导。
-3. **大模型在OCG卡牌领域的严重幻觉**：直接询问大模型关于游戏王的冷门卡牌或具体 combo，极易遭遇**严重**的“知识幻觉”（胡编乱造卡牌效果）。
-4. **复杂的动点认知和阻抗博弈** : 牌手缺少对部分卡组的了解，从而无法知道对方卡组的动点，系统的调度点运转点，导致无效阻抗或不知道如何阻抗。
+组合成一个真正理解垂直领域语境、能持续生长、也能与用户产生视觉互动的 Agent 系统。
 
-**ZeroAgent 的诞生正是为了填补这一业务空缺。** 我们通过引入 Agent 架构，将大语言模型的“逻辑推理能力”，耦合PG关系性数据库的绝对事实与 Neo4j 图数据库的卡牌关系网络相结合，打造了一个**既懂人话、又绝不胡编乱造**的资深卡牌架构师。
+---
 
-## ✨ 核心架构与技术亮点
+## Why ZeroAgent
 
-### 1. DDD领域驱动设计与高度解耦的模块化设计
-* **代码规范和设计隔离** ： 系统的核心业务逻辑（AI 聊天流转、工具链编排、意图决策）被极其严密地保护在 Domain 层，没有任何对外部框架的依赖。无论是飞书的 Webhook、豆包大模型的底层 HTTP 调用，还是 Neo4j 的 Cypher 语法，统统被放逐在 Infra（基础设施层）。领域层不关心底层的实现和拓展，拓展类之间也互不影响，完全隔离。
+游戏王 OCG 是一个信息密度极高、知识结构极复杂的垂直领域。
 
-* **防腐层设计**： 外部系统的脏数据与复杂协议绝对无法污染核心业务。例如，飞书极其复杂的 Card 2.0 JSON，或是大模型的原始 SSE 报文，在跨越边界进入核心链路前，均被统一拦截并转化为纯净的 UserMessage、Conversation 与 MessageChunk 等领域实体。
+玩家真正遇到的问题，往往不是“找不到模型”，而是：
 
-* **高内聚的充血模型**： 彻底告别传统 Spring MVC 的“贫血模型”。例如，我们在处理并发背压时定义的 ChatState 实体，不仅封装了思考链和内容的拼接状态，更在内部高度自治了 Sequence 序列号的自增控制与格式清理逻辑，将数据的变化规则牢牢封印在实体内部。
+- **查卡仍然低效**
+  传统卡查工具更擅长关键词匹配，不擅长理解自然语言描述、模糊别称和实际对局语境。
 
-* **极低重构成本和拓展难度**： 得益于高度解耦的依赖倒置（DIP）原则，ZeroAgent 拥有高度的可扩展性。如果明天需要将交互终端从“飞书”无缝迁移到“企业微信”或“钉钉”，亦或是将大模型从“豆包”切换为“DeepSeek / ChatGpt”，核心的领域层代码将保持零修改，开发者只需在拓展层infra中构造对领域层Domain的新实现即可。
+- **规则、判例、展开理解高度碎片化**
+  很多问题不是单张卡效果，而是卡组结构、关系链条、时点处理和博弈点判断。
 
-### 2. 极致流畅的原生流式渲染（Reactive Typewriter）
-完全摒弃了传统的阻塞式 HTTP 轮询。底层采用 **Spring WebFlux + Reactor** 架构，对接大模型 SSE 流。
-* **底层响应式网络模型开发** : 脱离 **Spring Ai** , **LangChain4J** 等Agent开发框架，在底层的WebFlux上实现流式对话和工具调用，高自由度，高拓展性。
-* **双轨输出机制**：完美适配大模型推理模型，在飞书卡片上实现了“大脑思考链（Reasoning）”与“最终总结（Content）”的视觉隔离与双轨流式输出。
-* **背压控制和兜底机制**：针对高并发下的大模型吐字洪流，独创性地引入了 `sample` 与 `onBackpressureLatest` 响应式算子组合，配合精准的 `sequence` 序列号控制，消灭了并发更新以及数据流消费过慢导致的飞书 API 报错，支持长文的丝滑渲染。
+- **通用大模型在 OCG 领域极易幻觉**
+  一旦问到冷门卡、复杂连锁、卡组动点或特定构筑，模型经常会“像知道一样胡说”。
+
+- **视觉互动内容仍然缺乏垂直语义**
+  普通图生图只能把图片“变好看”，但难以真正回应 OCG 世界观、卡组风格和角色感。
+
+ZeroAgent 的目标，就是把这些问题拆成一套可持续积累的能力体系：
+
+- 用结构化数据与图谱降低幻觉
+- 用 Agent 和工具调用提升专业性
+- 用 `AiTask` 把复杂 AI 能力收敛到统一任务底座
+- 用图像生成能力，把“问答”扩展成“视觉互动”
+
+---
+
+## What Makes It Different
+
+### 1. 不只是聊天，而是垂直领域 Agent
+
+ZeroAgent 的定位从来不是通用聊天机器人。
+
+它更像一个专注于游戏王 OCG 的 AI 应用底座，当前已经覆盖：
+
+- 垂直领域问答
+- 流式聊天回复
+- 工具调用
+- 卡牌信息检索
+- 知识图谱补充
+- 异步 AI 任务调度
+
+后续还将继续扩展到视觉互动、场景化创作和更复杂的智能内容生成。
+
+### 2. 用 PostgreSQL + Neo4j 给大模型“补地基”
+
+ZeroAgent 不把领域真实性完全交给模型记忆。
+
+项目通过：
+
+- PostgreSQL 存储卡牌客观事实
+- Neo4j 建立卡牌关系网络
+- Agent 在需要时调用结构化能力补充事实依据
+
+让模型输出不再只靠参数记忆，而是建立在可查询、可更新、可校验的知识底座之上。
+
+### 3. AiTask 让 AI 能力变成统一任务系统
+
+很多 AI 项目一开始能跑 demo，但一旦进入：
+
+- 异步提交
+- 状态流转
+- 重试和取消
+- 多类任务并存
+- 多种提供方接入
+
+就会迅速失控。
+
+ZeroAgent 在领域层内抽象了统一的 `AiTask` 任务体系，把 AI 能力接入收敛到：
+
+- 统一任务模型
+- 统一调度器
+- 统一状态机
+- 统一 `AiTaskHandler` 扩展点
+
+这样后续无论是生图、生成式处理，还是更多 AI 能力接入，都有可复用的框架底座。
+
+### 4. 从“文本问答”走向“视觉互动”
+
+ZeroAgent 当前正在推进的一个重要方向，是把 AI 从文本互动拓展到视觉互动。
+
+在第一阶段，项目聚焦一个轻量但有辨识度的玩法：
+
+- 用户在飞书发送图片
+- 系统基于原图生成带有游戏王 OCG 风格的视觉改造图
+- 在都市、星空、角色姿态等场景下，自动贴近元素英雄、银河眼等典型卡组气质
+- 适时加入“背后灵”或守护灵式的动漫表达
+
+这条链路的价值不只是“生成一张图”，而是在探索：
+
+> 当用户向 AI 发送一张图片时，AI 如何回一张真正有世界观、有角色感、有互动意味的专属内容。
+
+---
+
+## Core Capabilities
+
+### 流式 AI 聊天
+
+- 基于 Spring WebFlux + Reactor
+- 支持大模型流式输出
+- 已打通飞书交互端
+- 支持推理内容与最终内容的流式展示
+
+### 工具调用与结构化检索
+
+- 支持面向 OCG 场景的工具调用扩展
+- 能把自然语言问题转成结构化查询和知识补充
+- 为复杂卡牌问答提供更强的事实支撑
+
+### 卡牌知识库与知识图谱
+
+- 通过外部卡牌数据源同步 OCG 数据
+- 写入 PostgreSQL 构建客观事实库
+- 写入 Neo4j 构建关系网络
+- 持续增强 Agent 的专业性与可解释性
+
+### 统一 AI 任务调度
+
+- 已具备 `AiTask` 异步任务框架
+- 支持按 `taskType + bizType` 路由处理器
+- 支持任务轮询、执行、状态流转与持久化
+- 为后续图像类、生成类能力提供统一底座
+
+### 视觉互动生成
+
+- 基于飞书图片输入做互动式图生图
+- 当前聚焦 Seedream 方向的基础能力接入
+- 目标是把普通图片转化为更具 OCG 世界观氛围的互动内容
+
+---
+
+## Architecture
+
+ZeroAgent 采用清晰的分层设计，保证核心语义和基础设施解耦：
+
+- `bootstrap`
+  启动装配层
+- `api`
+  HTTP / SSE 接口接入层
+- `biz`
+  业务编排层
+- `domain`
+  核心领域语义、任务状态机、协议抽象
+- `infra`
+  数据库、飞书、Neo4j、TOS、LLM、图像生成等具体实现
+- `common`
+  通用能力模块
+
+这意味着：
+
+- 更换交互终端，不需要推翻领域模型
+- 更换大模型提供方，不需要重写核心语义
+- 新增一种 AI 任务，不需要重搭调度框架
+
+---
+
+## Current Directions
+
+ZeroAgent 当前最值得关注的三个方向：
+
+### 1. OCG 专业问答 Agent
+
+持续强化卡牌检索、规则理解、图谱关系补充和自然语言问答能力。
+
+### 2. 自生长知识图谱
+
+通过任务调度不断补充和维护 OCG 结构化关系，使知识底座持续增强。
+
+### 3. AI 视觉互动
+
+围绕“用户发图，AI回图”的交互方式，探索更具社交传播力的垂直视觉内容生成。
+
+相比单纯滤镜或普通动漫化，这个方向更强调：
+
+- 风格模板
+- 世界观映射
+- 角色感
+- 场景回应
+- 持续互动潜力
+
+---
+
+## Tech Stack
+
+- **Java 21**
+- **Spring Boot 3**
+- **Spring WebFlux / Reactor**
+- **PostgreSQL**
+- **jOOQ**
+- **Neo4j**
+- **Feishu Open Platform**
+- **Volcengine Doubao**
+- **Volcengine TOS**
 
 
-### 3. 精准的意图识别与防幻觉护城河
-* **严苛的 Tool Calling 规范**：通过高强度的 System Prompt 约束与字段级 Description 设计，彻底阻断了大模型“过早调用工具”和“参数幻觉”的业界通病。
-* **多模态技能网（Skills）**：Agent 具备自主判断能力，能将模糊的描述性问题转化为图数据库（Neo4j）或关系型数据库（PostgreSQL）的精准聚合查询（GraphQL/SQL），打通了“意图识别 -> 知识检索 -> 整合输出”的完整链路。
-* **厚实知识库底蕴** : Neo4j图数据库内存储的14000+节点和网络关系，为Agent的回复提供坚实的后盾，保证回答的客观性真实性，极大减少了幻觉的产生。
+---
 
-### 4. 具备自生长性的知识图谱与系统迭代
-* **绝对客观的知识骨架** : 通过对 百鸽API 的调用，载入最新的卡牌信息到PG数据库中，并且通过定时的MD5校验实现自动更新数据库内容，载入 Konami 新发布的卡片信息，保证实效性和客观性。
-* **定时任务调度图谱自生长** : 系统感知PG数据库内的卡牌信息状态机，自动打捞数据并在Neo4j图数据库内生成实体节点和客观的结构化关系，从而实现知识图谱的自生长。
-* **语义化关系生长耦合Agent成长** : 定时捞取卡牌节点触发Agent对话，集成Agent Skill，能够自动捞取卡牌并生成复杂的语义关系，如"SEARCH""AS_MATERIAL""COST"等。这些关系能够强化卡牌知识图谱的复杂性和专业性，得到了强化的知识图谱又能反哺Agent的专业性真实性，从而实现系统运转的良性循环和逻辑自洽。
+## Quick Start
 
+### 环境准备
 
+请先准备：
 
-## 🛠️ 技术栈清单
+- Java 21+
+- PostgreSQL
+- Neo4j
+- 飞书应用配置
+- 豆包 API Key
+- 火山云 TOS 配置
 
-* **核心框架**：Spring Boot 3.x, Spring WebFlux, Project Reactor
-* **AI 大脑**：火山引擎（Volcengine）Doubao-Pro
-* **交互终端**：飞书（Lark）开放平台，CardKit 2.0 交互式卡片，WebSocket 长连接订阅
-* **数据持久层**：PostgreSQL, JOOQ, MyBatis-Plus
-* **知识引擎**：Neo4j
-* **基础设施**：火山云 TOS 对象存储
+### 配置文件
 
+项目默认使用 `dev` profile。
 
-## 🔁 迭代方向 - OCG线上社区及二创论坛
-* **AIGC平台的功能拓展** : 基于复杂且全面的OCG卡牌知识网络和已经接入的TOS对象存储，能够实现更轻量级的游戏王卡图生成的功能，比如"生成阿不思和艾克莉西娅并肩作战的图片"，Agent能够自动检索知识图谱内的卡图信息，或基于丰富的卡图故事背景进行同人创作或卡牌diy
-* **禁卡表预测和卡牌强度打分** ： 由于Neo4j图数据库保证的卡牌节点的强关系性，Agent能够根据卡与卡之间的联动给出一套卡组内的梯度排名，以及对一张卡在系统内的运转重要性进行打分，在这种紧密联系的背景中，这套架构的Agent大有可为。
-* **CUA-Agent演进** : 基于丰富的OCG卡牌知识库和截图-图像识别技术，实现对 决斗链接（Duel Link），大师决斗（MD）等游戏王网络竞技游戏的"代打"
+请补全：
 
-## 🚀 快速开始
+[`app/bootstrap/src/main/resources/application-dev.yml`](./app/bootstrap/src/main/resources/application-dev.yml)
 
-本项目严格遵循环境隔离规范，拉取代码后请按照以下步骤初始化本地开发环境：
-
-### 1. 环境准备
-确保您的本地已安装 Java 21+、PostgreSQL 和 Neo4j。
-在infra模块中的pom.xml文件的 build.plugins.plugin.configuration.jdbc 内填入数据库相关配置属性
-
-### 2. 配置您的“密码本”
-本项目的所有敏感密钥均已从 `application.yml` 中抽离。请在 `src/main/resources` 目录下的 `application-dev.yml` 文件：
+最小配置项包括：
 
 ```yaml
-# application-dev.yml
-secrets:
-  feishu:
-    app-id: your_feishu_app_id_here
-    app-secret: your_feishu_app_secret_here
-  doubao:
-    api-key: your_doubao_api_key_here
-  datasource:
-    url: jdbc:postgresql://localhost:5432/zeroagent
-    username: postgres
-    password: your_db_password
-  neo4j:
-    uri: bolt://localhost:7687
-    authentication:
-      username: neo4j
-      password: your_neo4j_password
+llm:
+  api-key: your_doubao_api_key
+
+feishu:
+  app-id: your_feishu_app_id
+  app-secret: your_feishu_app_secret
+
+datasource:
+  url: jdbc:postgresql://localhost:5432/ZeroAgent
+  username: your_pg_user
+
+neo4j:
+  uri: bolt://localhost:7687
+  authentication:
+    username: neo4j
+    password: your_neo4j_password
+
+volcengine:
+  cloud:
+    region: your_region
+    access-key: your_access_key
+    secret-key: your_secret_key
+    tos:
+      bucket: your_bucket
 ```
-### 3. 飞书机器人接入
-在飞书后台开通应用，并输入应用相关密钥后启动项目，在机器人对话界面输入开始对话。
+
+### 启动
+
+```bash
+./mvnw -pl app/bootstrap spring-boot:run
+```
+
+---
+
+## Vision
+
+ZeroAgent 想做的，不是一个只会回答问题的 OCG 机器人。
+
+它更接近一个面向垂直知识、视觉互动和持续任务执行能力的 AI 应用原型：
+
+- 既能说
+- 也能查
+- 还能长
+- 并逐步学会用视觉内容回应用户
+
+如果你也对 **垂直 Agent、知识图谱、异步 AI 任务框架、视觉互动生成** 这些方向感兴趣，这个项目值得继续往下看。
